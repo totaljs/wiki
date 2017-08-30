@@ -33,8 +33,7 @@ function refresh_pages() {
 			var output = [];
 			for (var i = 0, length = response.length; i < length; i++) {
 				if (response[i].parent === parent) {
-					if (!response[i].group)
-						response[i].children = null;
+					!response[i].group && (response[i].children = null);
 					output.push(response[i]);
 				}
 			}
@@ -45,7 +44,10 @@ function refresh_pages() {
 
 		response.forEach(function(item) {
 			item.children = tree(item.id);
-			!item.children && item.group && (item.children = []);
+			if (item.group) {
+				!item.children && (item.children = []);
+			} else
+				item.children = null;
 			!item.parent && output.push(item);
 		});
 
