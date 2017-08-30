@@ -7,7 +7,7 @@ form { padding: 0; margin: 0; }
 footer { text-align: center; font-size: 11px; color: #A0A0A0; margin: 20px 0; }
 
 .container { height: 100%; }
-.logo { font-size: 16px; margin-bottom: 10px; }
+.logo { font-size: 16px; margin-bottom: 10px; color: black; display: block; }
 
 header { float: left; width: 300px; height: 100%; background-color: white; border-right: 1px solid #E0E0E0; color: black; }
 header nav a { display: block; }
@@ -35,3 +35,9 @@ section { margin-left: 300px; height: 100%; background-color: white; }
 	.container { padding-left: 0; padding-right: 0; }
 	section { height: auto; }
 }
+
+.updates a { font-size: 12px; height: 20px; display: block; line-height: 16px; padding: 2px 5px; border-radius: 4px; }
+.updates a span:first-child { float: right; color: gray; font-size: 11px; margin: 0;}
+.updates a span:last-child { max-width: 180px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; float: left; }
+.updates a .fa { margin-right: 5px; }
+.updates a:hover { background-color: #F0F0F0; text-decoration: none; }

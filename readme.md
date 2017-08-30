@@ -9,6 +9,15 @@
 - [__HelpDesk with professional support__](https://helpdesk.totaljs.com)
 - [Live preview](https://wiki.totaljs.com)
 
+## Features
+
+- Markdown editor with Live preview
+- Uploading files
+- Full-text search
+- Supports multi users
+- Records daily stats of reading
+- Responsive
+
 ---
 
 ## Installation
