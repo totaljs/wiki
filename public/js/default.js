@@ -13,6 +13,17 @@ ON('ready', function() {
 	});
 });
 
+// setTimeout because I expect that the homepage is loaded first (this is a prevention for double reading)
+setTimeout(function() {
+	ROUTE('/', function() {
+		SETTER('tree', 'unselect');
+		AJAX('GET /', function(response) {
+			$('#preview').html(response);
+			SETTER('loading', 'hide', 500);
+		});
+	});
+}, 1000);
+
 $(document).on('click', '.jrouting', function(e) {
 	e.preventDefault();
 	e.stopPropagation();
@@ -21,6 +32,7 @@ $(document).on('click', '.jrouting', function(e) {
 
 	var item = common.items.findItem('url', url);
 	if (item) {
+		firstcall = false;
 		SETTER('tree', 'select', item.$pointer);
 		SETTER('tree', 'expand', item.$pointer);
 	}

@@ -8,7 +8,9 @@
 			@{!markdown(model.body)}
 		@{else}
 			<h1>@(Welcome to Wiki)</h1>
-			<p>@(Choose a document for reading in the left panel.)</p>
+			<p class="nmb">@(Welcome to <b>Total.js Wiki documentation</b> application. Here you can found great Total.js resources which can help you with web development or custom modification of Total.js products.)</p>
+			@{view('updates', null, '3 minutes', 'updates')}
+			<script>document.title='@{title}';</script>
 		@{fi}
 	</div>
 </div>

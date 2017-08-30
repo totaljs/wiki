@@ -20,6 +20,7 @@ section { margin-left: 300px; height: 100%; background-color: white; }
 .padding { padding: 20px; }
 .date { font-size: 12px; float: right; }
 .author { font-size: 12px; }
+.nmb { margin-bottom: 0 !important; }
 
 @media(max-width: 768px) {
 	body { background-color: white; }

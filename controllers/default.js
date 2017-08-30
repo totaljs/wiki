@@ -11,6 +11,8 @@ function wiki() {
 	var self = this;
 	var item = F.global.pages.findItem('url', self.req.split.join('/'));
 
+	self.xhr && self.layout('');
+
 	if (!item) {
 		self.title(F.config.name);
 		self.view('detail');
@@ -19,10 +21,7 @@ function wiki() {
 
 	NOSQL('pages').one().where('id', item.id).callback(function(err, response) {
 
-		if (self.xhr)
-			self.layout('');
-		else
-			self.title(item.title);
+		!self.xhr && self.title(item.title);
 
 		if (response) {
 			var counter = NOSQL('pages').counter;

@@ -1,0 +1,14 @@
+<div class="row">
+	<div class="col-md-6 m">
+		<h2>@(Updates)</h2>
+		@{foreach m in CLONE(F.global.pages).where(n => n.dateupdated && !n.group).quicksort('dateupdated', true).take(10)}
+			<div><a href="/@{m.url}/" class="jrouting">@{m.title}</a></div>
+		@{end}
+	</div>
+	<div class="col-md-6 m">
+		<h2>@(News)</h2>
+		@{foreach m in CLONE(F.global.pages).where('group', false).quicksort('datecreated', true).take(10)}
+			<div><a href="/@{m.url}/" class="jrouting">@{m.title}</a></div>
+		@{end}
+	</div>
+</div>
