@@ -7,7 +7,7 @@
 - `v1.0.0` (works only with __Total.js +v2.8.0__)
 - [__Live chat with professional support__](https://messenger.totaljs.com)
 - [__HelpDesk with professional support__](https://helpdesk.totaljs.com)
-- [A simple documentation](https://docs.totaljs.com/eshop-cms/latest.html)
+- [Live preview](https://wiki.totaljs.com)
 
 ---
 
