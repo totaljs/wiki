@@ -1,0 +1,10 @@
+name                          : Wiki
+version                       : 1.0.0
+author                        : Peter Širka
+
+// A relative URL address into the eshop management
+manager-url                   : /$manager
+manager-cookie                : __manager
+
+// Super users in the form "name:password"
+manager-superadmin  (Array)   : ['admin:admin']

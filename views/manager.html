@@ -1,0 +1,423 @@
+@{layout('')}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wiki Editor v@{config.version}</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=10" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="robots" content="all,follow" />
+	<link rel="stylesheet" href="//cdn.totaljs.com/spa.min.css" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.2/codemirror.min.css" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
+	@{import('head', 'manager.css', 'favicon.ico')}
+</head>
+<body data-jc="exec,binder">
+
+	<div data-jc="loading" class="ui-loading"></div>
+	<div data-jc="confirm"></div>
+
+	<header>
+		<div class="ptree">
+			<div><b>@{config.name}</b> v@{config.version}</div>
+			<nav>
+				<button class="exec" data-exec="togglesearch" title="@(Search)"><i class="fa fa-search"></i></button>
+				<button class="exec" data-exec="add_newsection" title="@(Add a new section)"><i class="fa fa-plus-circle"></i></button>
+				<button class="exec" data-exec="logoff" title="@(Sign out)"><i class="fa fa-power-off"></i></button>
+			</nav>
+		</div>
+		<div class="pbody hidden" data-b="common.state" data-b-visible="value === 0">
+			<nav>
+				<button class="exec btn-centered" data-exec="sav_document" title="@(Save)"><i class="fa fa-floppy-o"></i></button>
+				<button class="exec btn-centered" data-exec="upd_document" title="@(Page setting)"><i class="fa fa-hashtag"></i></button>
+				<button class="exec btn-centered" data-exec="rem_document" title="@(Remove page)"><i class="fa fa-times"></i></button>
+			</nav>
+			<div class="meta">@(ID:) <span data-b="current.id" data-b-html="value" class="b"></span></div>
+		</div>
+		<div class="ppreview hidden" data-b="common.state" data-b-visible="value === 0">
+			<nav>
+				<button class="exec" data-exec="togglepreview" title="@(Toggle preview)" data-b="common.preview" data-b-class="value ? '+selected' : '-selected'"><i class="fa fa-eye"></i></button>
+			</nav>
+			<div data-jc="nosqlcounter" data-jc-path="stats" style="height:30px;width:250px"></div>
+		</div>
+	</header>
+
+	<div class="content" data-b="common.preview" data-b-class="value ? '+showpreview' : '-showpreview'">
+
+		<section class="tree">
+			<div data-jc="tree" data-jc-path="manager.pages" data-jc-config="exec:treeclick"></div>
+		</section>
+
+		<section class="body">
+			<div class="controls" data-b="common.state" data-b-visible="n => n ? true : false">
+				<table>
+					<tr>
+						<td>
+							<button class="hidden exec btn-centered" data-b="common.state" data-b-visible="value === 2" data-exec="add_document">@(Add document)</button>
+							<button class="hidden exec btn-centered" data-b="common.state" data-b-visible="value === 1 || value === 2" data-exec="add_section">@(Add section)</button>
+							<button class="hidden exec" data-b="common.state" data-b-visible="value === 2" data-exec="rem_section">@(Remove)</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="editor">
+				<div data-jc="codemirror" data-jc-path="current.body" data-jc-config="height:100%;type:markdown"></div>
+			</div>
+			<div class="preview markdown" id="preview"></div>
+		</section>
+	</div>
+
+	<div data-jc="inlineform" data-jc-config="width:250;title:@(New section);submit:sub_section;enter:true" class="hidden" data-jc-id="newproject">
+		<div class="padding">
+			<div data-jc="textbox" data-jc-path="tree.name" data-jc-config="required:true;placeholder:@(Type a name)" data-jc-value="''">@(Section name)</div>
+		</div>
+		<div class="ui-inlineform-buttons" data-jc="validation" data-jc-path="tree" data-jc-config="selector:.submit">
+			<button name="submit" class="submit">@(SUBMIT)</button>
+			<button name="cancel">@(Cancel)</button>
+		</div>
+	</div>
+
+	<div data-jc="inlineform" data-jc-config="width:250;title:@(New document);submit:sub_document;enter:true" class="hidden" data-jc-id="newdocument">
+		<div class="padding">
+			<div data-jc="textbox" data-jc-path="meta.name" data-jc-config="required:true;placeholder:@(Type a name)" data-jc-value="''" class="m">@(Document name)</div>
+			<div data-jc="textbox" data-jc-path="meta.author" data-jc-config="required:true;placeholder:@(Your name)" data-jc-value="'@{user}'">@(Author)</div>
+		</div>
+		<div class="ui-inlineform-buttons" data-jc="validation" data-jc-path="meta" data-jc-config="selector:.submit">
+			<button name="submit" class="submit">@(SUBMIT)</button>
+			<button name="cancel">@(Cancel)</button>
+		</div>
+	</div>
+
+	<div data-jc="inlineform" data-jc-config="width:300;title:@(Search documents)" class="hidden" data-jc-id="search">
+		<div class="padding">
+			<div data-jc="textbox" data-jc-path="common.search" data-jc-config="type:search;placeholder:@(What do you search?)" data-jc-value="''" class="m"></div>
+			<div data-jc="repeater" data-jc-path="common.searchresult" class="searchresults">
+				<script type="text/html">
+					<div data-id="{{ $pointer }}" class="searchresult exec" data-exec="selectsearch"><i class="fa fa-file-o"></i>{{ title }}</div>
+				</script>
+			</div>
+		</div>
+		<div class="ui-inlineform-buttons">
+			<button name="cancel" style="width:100%">@(Cancel)</button>
+		</div>
+	</div>
+
+	<script src="//cdn.totaljs.com/spa.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/javascript/javascript.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/htmlmixed/htmlmixed.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/css/css.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/markdown/markdown.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+
+	@{import('manager.js')}
+
+	<script>
+
+		$('#preview').on('click', 'a', function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+		});
+
+		var tree = {};    // data for tree
+		var manager = {}; // temporary data
+		var current = {}; // current document
+		var common = {};  // common data
+
+		common.preview = true; // preview tab
+		common.state = 1;      // current state for buttons in the middle of editor/preview
+		common.change = false;
+
+		// SECTIONS
+
+		function add_newsection(el) {
+			DEFAULT('tree.*');
+			tree.parent = undefined;
+
+			var align = el.hclass('btn-centered') ? 'center' : 'left';
+			var posY = align === 'center' ? 10 : 5;
+			var posX = align === 'center' ? 10 : -18;
+
+			SETTER('#newproject', 'toggle', el, align, posX, posY);
+		}
+
+		function add_section(el) {
+			DEFAULT('tree.*');
+			tree.parent = current.parent;
+
+			var align = el.hclass('btn-centered') ? 'center' : 'left';
+			var posY = align === 'center' ? 10 : 5;
+			var posX = align === 'center' ? 10 : -18;
+
+			SETTER('#newproject', 'toggle', el, align, posX, posY);
+		}
+
+		function rem_section(el) {
+			SETTER('confirm', 'confirm', '@(Are you sure you want to remove selected section?)', ['@(Yes)', '@(No)'], function(index) {
+				if (index)
+					return;
+				SETTER('loading', 'show');
+				AJAX('DELETE /api/pages/{0}/'.format(current.parent), function() {
+					SET('common.state', 1);
+					SET('current', {});
+					SETTER('tree', 'clear');
+					refresh_pages();
+				});
+			});
+		}
+
+		function sub_section(component) {
+			SETTER('loading', 'show');
+			AJAX('POST /api/pages/', tree, function() {
+				SETTER('loading', 'hide', 500);
+				refresh_pages();
+				component.hide();
+			});
+		}
+
+		// DOCUMENTS
+
+		function add_document(el) {
+
+			DEFAULT('meta.*');
+			meta.parent = current.parent;
+
+			var align = el.hclass('btn-centered') ? 'center' : 'left';
+			var posY = align === 'center' ? 10 : 5;
+			var posX = align === 'center' ? 10 : -18;
+
+			var com = FIND('#newdocument');
+			com.reconfigure('title:@(New page)');
+			com.toggle(el, align, posX, posY);
+		}
+
+		function upd_document(el) {
+
+			SET('meta', CLONE(current));
+
+			var align = el.hclass('btn-centered') ? 'center' : 'left';
+			var posY = align === 'center' ? 10 : 5;
+			var posX = align === 'center' ? 10 : -18;
+
+			var com = FIND('#newdocument');
+			com.reconfigure('title:@(Edit page)');
+			com.toggle(el, align, posX, posY);
+		}
+
+		function rem_document(el) {
+			SETTER('confirm', 'confirm', '@(Are you sure you want to remove selected page?)', ['@(Yes)', '@(No)'], function(index) {
+				if (index)
+					return;
+				SETTER('loading', 'show');
+				AJAX('DELETE /api/pages/{0}/'.format(current.id), function() {
+					SET('common.state', 1);
+					SET('current', {});
+					refresh_pages();
+				});
+			});
+		}
+
+		function refresh_pages() {
+			AJAX('GET /api/pages/', function(response) {
+
+				function tree(parent) {
+					var output = [];
+					for (var i = 0, length = response.length; i < length; i++) {
+						if (response[i].parent === parent) {
+							if (!response[i].group)
+								response[i].children = null;
+							output.push(response[i]);
+						}
+					}
+					return output;
+				}
+
+				var output = [];
+
+				response.forEach(function(item) {
+					item.children = tree(item.id);
+					!item.children && item.group && (item.children = []);
+					!item.parent && output.push(item);
+				});
+
+				SET('manager.pages', output);
+				SET('manager.items', response);
+				SETTER('loading', 'hide', 500);
+			});
+		}
+
+		function sub_document(component) {
+
+			!meta.body && (meta.body = '# {0}\n\n'.format(meta.name));
+			SETTER('loading', 'show');
+
+			var refresh = current.name !== meta.name || !meta.id;
+			current.author = meta.author;
+			current.name = meta.name;
+
+			AJAX('POST /api/pages/', meta, function() {
+				refresh && refresh_pages();
+				component._id && component.hide();
+				SETTER('loading', 'hide', 500);
+			});
+		}
+
+		function sav_document(component) {
+			SETTER('loading', 'show');
+			AJAX('POST /api/pages/', current, function() {
+
+				common.change = false;
+
+				if (typeof(component) === 'function')
+					component();
+				else if (component && component._id)
+					component.hide();
+
+				SETTER('loading', 'hide', 500);
+			});
+		}
+
+		// COMMON
+
+		function preview(value) {
+			setTimeout2('preview', function(value) {
+				$('#preview').html(markdown(value));
+				refresh_markdown();
+			}, 150, 50, value);
+		}
+
+		function treeclick(obj, is, visible) {
+			var next = function() {
+				common.change = false;
+				if (is) {
+					SET('common.state', visible ? 2 : 1);
+					if (visible) {
+						SET('current.parent', obj.id);
+						SET('tree.parent', obj.id);
+					}
+					SETTER('tree', 'unselect');
+				} else {
+					SET('common.state', 0);
+					AJAX('GET /api/pages/' + obj.id, function(response) {
+						SET('current', response);
+						preview(response.body);
+						AJAX('GET /api/stats/' + obj.id, 'stats');
+						setTimeout(function() {
+							common.change = false;
+						}, 500);
+					});
+				}
+			};
+
+			if (common.change) {
+				SETTER('confirm', 'confirm', '@(Document has been updated, do you want to save it?)', ['Yes', 'Cancel'], function(index) {
+					if (index)
+						next();
+					else
+						sav_document(next);
+				});
+			} else
+				next();
+		}
+
+		FIND('codemirror', function(component) {
+
+			component.on('change', function(value) {
+				common.change = true;
+				preview(value);
+			});
+
+			component.editor.on('drop',function(editor, e) {
+
+				e.preventDefault();
+				e.stopPropagation();
+
+				SETTER('loading', 'show');
+
+				var data = new FormData();
+				var files = e.dataTransfer.files;
+
+				for (var i = 0, length = files.length; i < length; i++)
+					data.append('file' + i, files[i]);
+
+				UPLOAD('/api/upload/', data, function(data, err) {
+
+					SETTER('loading', 'hide', 100);
+
+					if (err) {
+						if (err.toString().indexOf('413:') !== -1)
+							FIND('message').warning('@(The file is too large. The maximum allowed length of file is 2 MB.)');
+						return;
+					}
+
+					if (!data || !data.length)
+						return;
+
+					var push = [];
+
+					for (var i = 0, length = data.length; i < length; i++) {
+						var file = data[i];
+
+						if (file.width && file.height)
+							push.push('![' + file.filename + '](' + file.url + ')');
+						else
+							push.push('[' + file.filename + ' (' + (file.length / 1024).toFixed(2) + ' kB)](' + file.url + ')');
+					}
+
+					editor.replaceSelection(push.join('\n'));
+				});
+			});
+		});
+
+		function togglepreview() {
+			SET('common.preview', !common.preview);
+		}
+
+		function togglesearch(el) {
+
+			var align = el.hclass('btn-centered') ? 'center' : 'left';
+			var posY = align === 'center' ? 10 : 5;
+			var posX = align === 'center' ? 10 : -18;
+
+			SETTER('#search', 'toggle', el, align, posX, posY);
+		}
+
+		function selectsearch(el) {
+			SETTER('#search', 'hide');
+			SETTER('tree', 'select', +el.attr('data-id'));
+		}
+
+		refresh_pages();
+		SETTER(true, 'loading', 'hide');
+
+		WATCH('common.search', function(path, value) {
+
+			var arr = [];
+			var search = value.toSearch().split(' ').trim();
+
+			search.length && manager.items.forEach(function(item) {
+				if (!item.search || item.group)
+					return;
+
+				for (var i = 0; i < search.length; i++) {
+					if (item.search.indexOf(search[i]) === -1)
+						return;
+				}
+				arr.push(item);
+			});
+
+			SET('common.searchresult', arr);
+		});
+
+		function logoff() {
+			location.href = '@{'%manager-url'}/logoff/';
+		}
+
+	</script>
+
+</body>
+</html>

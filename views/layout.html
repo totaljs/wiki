@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=10" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="robots" content="all,follow" />
+	<link rel="stylesheet" href="//cdn.totaljs.com/spa.min.css" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
+	<script src="//cdn.totaljs.com/spa.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+	@{import('meta', 'head', 'default.css', 'default.js', 'favicon.ico')}
+</head>
+<body data-jc="exec">
+
+	<div data-jc="autocomplete"></div>
+	<div data-jc="loading" class="ui-loading"></div>
+
+	<div class="container">
+		<header>
+			<div class="padding">
+				<div class="logo"><b>@{config.name}</b> v@{config.version}</div>
+				<div data-jc="textbox" data-jc-path="common.search" data-jc-config="type:search;placeholder:@(Search in Wiki ...)" data-jc-id="search"></div>
+				<br />
+				<div class="categories">
+					<div data-jc="tree" data-jc-path="common.pages" data-jc-config="exec:treeclick;first:false"></div>
+				</div>
+				<button class="categorybutton"><i class="fa fa-plus-circle"></i>Toggle content</button>
+				<footer>
+					@(All rights reserved &copy; 2017)<br />
+					<a href="https://www.totaljs.com/wiki/" target="_blank">Total.js Wiki</a>
+				</footer>
+			</div>
+		</header>
+		<section id="preview">
+			@{body}
+		</section>
+	</div>
+	@{section('script')}
+</body>
+</html>

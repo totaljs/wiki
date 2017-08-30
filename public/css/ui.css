@@ -1,0 +1,144 @@
+.ui-loading { position: fixed; width: 100%; height: 100%; background-color: rgba(255,255,255,0.8); left: 0; top: 0; z-index: 1000; }
+.ui-loading div { animation: loading 333ms alternate infinite cubic-bezier(0.2,0,0.5,1); width: 50px; height: 50px; background-color: black; position: absolute; left: 50%; top: 50%; border-radius: 100px; margin: -25px 0 0 -25px; }
+
+.hidden { display: none; }
+
+@keyframes loading {
+  to {
+    transform: scale(0.4);
+    background-color: silver;
+  }
+}
+
+.ui-tree { background-color: white; height: 100%; overflow-y: auto; overflow-x: hidden; overflow-scrolling: touch; }
+.ui-tree .node {}
+.ui-tree .children { display: none; }
+.ui-tree .item .fa { width: 16px; margin-right: 3px; }
+.ui-tree .item { cursor: pointer; padding: 6px 18px; font-size: 14px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #E0E0E0; }
+.ui-tree .item:hover { background-color: #F0F0F0; }
+.ui-tree .show > .children { display: block; }
+.ui-tree .show > .item { font-weight: bold; background-color: #F8F8F8; }
+.ui-tree .selected { background-color: #FFE7A1 !important; }
+
+.ui-tree .children1 .item { padding-left: 33px; }
+.ui-tree .children2 .item { padding-left: 48px; }
+.ui-tree .children3 .item { padding-left: 63px; }
+.ui-tree .children4 .item { padding-left: 78px; }
+
+.ui-inlineform-container { position: absolute; width: 100%; z-index: 50; }
+.ui-inlineform { background-color: white; border-radius: 3px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transform: translate(0, 10px); transition: all 0.2s; opacity: 0; border: 1px solid black; }
+.ui-inlineform-animate { transform: skewX(0deg); opacity: 1; }
+.ui-inlineform .padding { padding: 15px; }
+.ui-inlineform-arrow { position: absolute; color: black; font-size: 25px; margin-top: -18px; }
+.ui-inlineform-title { padding: 10px 15px; font-size: 12px; user-select: none; color: black; background-color: white; border-bottom: 1px solid #F0F0F0; border-radius: 3px; }
+.ui-inlineform-title .ui-inlineform-close { float: right; cursor: pointer; font-size: 14px; margin: -2px 0 0 0; transition: all 0.2s; background: none; border: 0; outline: 0; height: auto; color: #DD2925; }
+.ui-inlineform-title .ui-inlineform-close:hover { transform: scale(1.2) rotate(-90deg); }
+.ui-inlineform-title > span { font-weight: bold; }
+.ui-inlineform-title > .fa { margin-right: 7px; }
+.ui-inlineform-buttons { padding: 10px 15px; border-top: 1px solid #F0F0F0; }
+.ui-inlineform-buttons button { border: 1px solid #E0E0E0; background-color: white; border-radius: 4px; height: 25px; padding: 0 10px; color: black; margin: 0; cursor: pointer; font-family: Arial; vertical-align: middle; outline: 0; font-size: 11px; text-decoration: none; transition: all 0.3s; }
+.ui-inlineform-buttons button .fa { width: 16px; }
+.ui-inlineform-buttons button:hover { border-color: silver; }
+.ui-inlineform-buttons button:active { background-color: #D0D0D0; }
+.ui-inlineform-buttons button:disabled { background-color: #F5F5F5 !important; border-color: #E0E0E0 !important; color: silver !important; cursor: not-allowed; box-shadow: none; }
+.ui-inlineform-buttons button[name="submit"] { width: 120px; margin-right: 8px; font-weight: bold; }
+.ui-inlineform-buttons button[name="cancel"] { color: gray; }
+.ui-inlineform-buttons div { position: relative; display: inline-block; vertical-align: middle; }
+.ui-inlineform-buttons label { float: right; margin: 12px 0 0 0; font-size: 11px; }
+
+input:-ms-input-placeholder, input:-webkit-input-placeholder, input:-moz-input-placeholder { color: silver; }
+input[type="text"]:disabled, input[type="password"]:disabled, select:disabled { background-color: #F0F0F0; cursor: not-allowed; color: silver; }
+.ui-textbox { border: 1px solid #E0E0E0; padding: 5px 2px 5px 5px; border-radius: 2px; position: relative; width: 100%; background-color: white; display: table; }
+.ui-textbox input { display: table-cell; border: 0; outline: 0; font: normal 14px Arial; color: black; width: 100%; background-color: white; }
+.ui-textbox div { width: 1%; position: relative; vertical-align: middle; display: table-cell; text-align: center; white-space: nowrap; text-overflow: clip; border-left: 1px solid #E0E0E0; width: 30px; color: silver; }
+.ui-textbox .fa-times { color: red; cursor: pointer; }
+.ui-textbox-label { margin-bottom: 5px; font-size: 12px; color: #656D78; text-align: left; }
+.ui-textbox-label .fa { margin-right: 5px; }
+.ui-textbox-label-required:before { color: red; content: '***'; margin-right: 5px; }
+.ui-textbox-invalid { border-color: #E1A1A1 !important; background-color: #FFF3F3 !important; }
+.ui-textbox-invalid input { background-color: #FFF3F3 !important; }
+.ui-textbox .fa-caret-up, .ui-textbox .fa-caret-down { display: block; line-height: 9px; cursor: pointer; }
+.ui-textbox .fa-calendar { cursor: pointer; }
+.ui-textbox-helper { margin-top: 8px; font-size: 11px; color: red; text-align: left; display: none; }
+.ui-textbox-helper-show { display: block; }
+
+.ui-right { text-align: right; }
+.ui-center { text-align: center; }
+
+.ui-textbox-container.ui-disabled .ui-textbox { background-color: #F0F0F0; cursor: not-allowed; }
+.ui-textbox-container.ui-disabled .ui-textbox input { background-color: #F0F0F0; }
+
+.ui-inlineform {
+	.m { margin-bottom: 10px; }
+	.ui-dropdown { height: 28px; padding-top: 1px; }
+	.ui-dropdown select { height: 18px; font-size: 11px; }
+	.ui-dropdown-label { font-size: 11px; }
+	.ui-dropdown .fa { right: 10px; top: 7px; }
+	.ui-textbox-label { font-size: 11px; }
+	.ui-textbox { padding: 2px 2px 4px 5px; }
+	.ui-textbox input { font-size: 11px; }
+	.ui-dropdowncheckbox-label { font-size: 11px; }
+	.ui-dropdowncheckbox { height: 28px; }
+	.ui-dropdowncheckbox-selected { font-size: 11px; }
+	.ui-dropdowncheckbox .fa { margin-top: 5px; font-size: 14px; }
+}
+
+.ui-codemirror-label { margin-bottom: 5px; font-size: 12px; color: #656D78; text-align: left; }
+.ui-codemirror-label .fa { width: 14px; }
+.ui-codemirror-label-required:before { color: redui-codemirror; content: '***'; margin-right: 5px; }
+.ui-codemirror-invalid .CodeMirror { background-color: #FFF3F3 !important; border: 1px solid #E1A1A1 !important; }
+.ui-codemirror { height: 100%; }
+.ui-disabled .ui-codemirror { cursor: not-allowed; }
+.CodeMirror { padding: 10px; }
+
+.markdown { font-size: 16px; line-height: 22px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; color: #404040; }
+.markdown code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.markdown h1 { margin: 0 0 20px; font-size: 30px; padding: 0 0 13px; border-bottom: 1px solid #E0E0E0; color: black; line-height: 38px; font-family: -apple-systm, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+.markdown h2 { margin: 30px 0 18px; font-weight: bold; font-size: 25px; padding: 0 0 8px; border-bottom: 1px solid #E0E0E0; color: black; line-height: 28px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+.markdown h3, .markdown h4, .markdown h5 { margin: 30px 0 10px; font-size: 20px; padding: 0 0 5px; color: #404040; font-weight: bold; line-height: 22px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+.markdown p { margin: 0 0 20px; }
+.markdown p code, .markdown li code, .markdown blockquote code, .markdown h1 code, .markdown h2 code, .markdown h3 code, .markdown h4 code { background-color: #E0E0E0; padding: 0 5px 1px; border-radius: 4px; font-size: 14px; }
+.markdown pre { padding: 0; border-radius: 4px; margin: 20px 0; width: 100%; }
+.markdown pre code { padding: 15px; font-size: 14px; line-height: 18px; }
+.markdown table { width: auto; }
+.markdown ul { margin: 0 0 20px 0; padding: 0 0 0 2em; }
+.markdown th { background-color: #F8F8F8; }
+.markdown blockquote { padding: 0 15px; color: #777; border-left: 4px solid #DDD; margin: 10px 0; }
+.markdown hr { border-color: #E0E0E0; border-width: 2px; }
+
+.video { position: relative; padding-bottom: 56.25%; padding-top: 25px; height: 0; margin-bottom: 15px; }
+.video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+.ui-confirm { background-color: rgba(255,255,255,0.9); position: fixed; left: 0; right: 0; bottom: 0; top: 0; z-index: 100; width: 100%; display: table; height: 100%; transition: 0.5s all; opacity: 0; }
+.ui-confirm > div { display: table-cell; vertical-align: middle; text-align: center; color: white; padding: 15px; }
+.ui-confirm-body { padding: 30px; position: relative; display: inline-block; border-radius: 4px; max-width: 600px; text-align: left; transform: scale(0.5); transition: 0.3s all; color: gray; border: 1px solid #E0E0E0; background-color: white; box-shadow: 0 0 30px rgba(0,0,0,0.1); }
+.ui-confirm-message { border-bottom: 1px solid #F0F0F0; padding: 0 0 20px 0; margin-bottom: 20px; }
+.ui-confirm button { font-size: 12px; position: relative; display: inline-block; cursor: pointer; outline: 0; background-color: #E0E0E0; border: 0; border-radius: 4px; color: gray; padding: 0 20px; height: 30px; font-weight: bold; margin: 0 10px 0 0; }
+.ui-confirm button:hover { background-color: #E5E5E5; }
+.ui-confirm-visible { opacity: 1; }
+.ui-confirm-visible .ui-confirm-body { -webkit-transform: scale(1); transform: scale(1); }
+.ui-confirm-click { transform: scale(1.07) !important; }
+.hidden { display: none; }
+
+@media(max-width: 767px) {
+	.ui-confirm button { display: block; margin: 10px 0 0; display: block; width: 100%; }
+}
+
+.ui-nosqlcounter { background-color: #F8F8F8; border-radius: 3px; box-shadow: inset 0 0 10px #E0E0E0; }
+.ui-nosqlcounter div { position: relative; display: inline-block; vertical-align: bottom; border-left: 1px solid white; text-align: center; font-size: 8px; width: 8.333%; background-color: #3BAFDA; cursor: default; overflow: hidden; color: white; }
+.ui-nosqlcounter div:first-child { border-left: 0; border-radius: 3px 0 0 3px; }
+.ui-nosqlcounter .last { border-radius: 0 3px 3px 0; }
+.ui-nosqlcounter div:hover { opacity: 0.8; }
+.ui-nosqlcounter span { border-bottom: 1px solid rgba(255,255,255,0.5); display: block; padding: 2px 0; overflow: hidden; white-space: nowrap; }
+.ui-nosqlcounter .empty { background-color: #A0A0A0; }
+.ui-nosqlcounter .current { background-color: #E74024; }
+
+.ui-autocomplete-container { position: absolute; z-index: 60; }
+.ui-autocomplete { background-color: white; width: 100%; margin: -5px 0 0 0; padding: 2px 0; border-radius: 0 0 4px 4px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 1px solid #E0E0E0; line-height: 14px; }
+.ui-autocomplete ul { list-style-type: none; margin: 0; padding: 0; }
+.ui-autocomplete li { margin: 0; padding: 5px 12px 0; border-bottom: 1px solid #F0F0F0; cursor: pointer; font-size: 12px; color: #505050; height: 24px; }
+.ui-autocomplete li:last-child { border-bottom: 0; }
+.ui-autocomplete .selected { background-color: #F0F0F0; }
+.ui-autocomplete li span { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.ui-autocomplete li span:first-child { float: left; width: 65%;  }
+.ui-autocomplete li span:last-child { float: right; width: 30%; font-size: 11px; color: #A0A0A0; }

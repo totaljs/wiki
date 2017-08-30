@@ -1,0 +1,26 @@
+{
+  "name": "Wiki",
+  "description": "A simple Wiki documentation tool/app.",
+  "version": "1.0.0",
+  "main": "release.js",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/totaljs/wiki"
+  },
+  "dependencies": {
+    "total.js": "latest"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "wiki",
+    "documentation",
+    "blog",
+    "posts",
+    "api",
+    "markdown"
+  ],
+  "author": "Peter Širka",
+  "license":"MIT"
+}

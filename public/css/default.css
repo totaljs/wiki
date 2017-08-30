@@ -1,0 +1,36 @@
+/*auto*/
+
+.CMS_hidden { display: none; }
+html,body { height: 100%; }
+body { background-color: #F5F7FA; padding: 0; margin: 0; color: gray; font-smoothing: antialiased; }
+form { padding: 0; margin: 0; }
+footer { text-align: center; font-size: 11px; color: #A0A0A0; margin: 20px 0; }
+
+.container { height: 100%; }
+.logo { font-size: 16px; margin-bottom: 10px; }
+
+header { float: left; width: 300px; height: 100%; background-color: white; border-right: 1px solid #E0E0E0; color: black; }
+header nav a { display: block; }
+.categorybutton { border: 0; text-align: center; width: 100%; background-color: #F0F0F0; border-radius: 4px; height: 30px; outline: 0; display: none; }
+.categorybutton .fa { margin-right: 5px; }
+.categorybutton:hover { background-color: #E0E0E0; }
+.categorybutton:active { background-color: #D0D0D0; }
+
+section { margin-left: 300px; height: 100%; background-color: white; }
+.padding { padding: 20px; }
+.date { font-size: 12px; float: right; }
+.author { font-size: 12px; }
+
+@media(max-width: 768px) {
+	body { background-color: white; }
+	section { margin-left: 0; }
+	header { float: none; width: 100%; height: auto; border-bottom: 2px solid black; border-right: 0; }
+	footer { display: none; }
+	.categorybutton { display: block; }
+	.categories { display: none; margin-bottom: 20px; }
+	.categoriesshow { display: block !important; }
+	.date { float: none; }
+	.author { margin-bottom: 10px; }
+	.container { padding-left: 0; padding-right: 0; }
+	section { height: auto; }
+}

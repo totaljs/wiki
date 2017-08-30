@@ -1,0 +1,108 @@
+/*auto*/
+
+html { overflow: hidden; }
+html,body { margin: 0; height: 100%; position: relative; }
+body { background-color: white; padding: 0; color: #303030; overflow-y: scroll; overflow-x: hidden; overflow-scrolling: touch; }
+
+header { background: linear-gradient(white,#F0F0F0); height: 50px; position: fixed; left: 0; right: 0; top: 0; border-bottom: 1px solid #E0E0E0; color: black; }
+header nav { float: left; border: 1px solid #D0D0D0; margin: 10px 0 0 10px; border-radius: 4px; }
+header nav button { border: 0; border-left: 1px solid #E0E0E0; background-color: white; font-size: 15px; min-width: 34px; height: 28px; color: black; outline: 0; }
+header nav button:hover { background-color: #E0E0E0; text-shadow: 1px 1px 1px white; }
+header nav button:first-child { border-left: 0; border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
+header nav button:last-child { border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
+header nav .selected { background-color: #FFF1C6; }
+header .meta { float: left; margin: 18px 0 0 20px; font-size: 11px; }
+header .ui-nosqlcounter { float: right; margin: 10px 0 0 20px; }
+
+.content { padding-top: 50px; height: 100%; }
+.tree { float: left; width: 280px; background-color: #F0F0F0; height: 100%; border-right: 1px solid #E0E0E0; }
+.body { margin-left: 280px; height: 100%; background-color: #F0F0F0; position: relative; display: block; }
+
+.ppreview { float: right; margin-right: 15px; }
+.ptree { float: left; width: 267px; }
+.ptree > div { float: left; margin: 14px 0 0 20px; font-size: 16px; width: 125px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ptree nav { float: right; }
+.pbody { float: left; margin-left: 15px; }
+
+.editor { height: 100%; width: 100%; float: left; }
+.preview { display: none; height: 100%; float: right; background-color: white; border-left: 1px solid #E0E0E0; padding: 20px; }
+.controls { height: 100%; position: absolute; width: 100%; height: 100%; background-color: white; z-index: 5; }
+.controls table { width: 100%; height: 100%; text-align: center; }
+.controls button { height: 40px; width: 200px; margin: 10px; border-radius: 3px; outline: 0; background-color: white; border: 1px solid #E0E0E0; border-bottom-color: #D0D0D0; transition: all 0.3s; cursor: pointer; }
+.controls button:hover { background-color: #F8F8F8; }
+.controls button:active { color: gray; }
+
+.showpreview .editor { width: 45%; }
+.showpreview .preview { width: 55%; display: block; }
+
+h1 { font-weight: 400; font-family: 'Source Sans Pro'; margin: 0 0 20px 0; padding: 0; color: black; font-size: 30px; }
+h1 b { font-weight: 700; }
+
+h2 { font-weight: 700; font-family: 'Source Sans Pro'; margin: 0 0 20px 0; padding: 0; color: black; font-size: 22px; }
+h2 .fa { margin-right: 8px; }
+
+h3 { font-weight: 400; font-family: 'Source Sans Pro'; margin: 0 0 15px 0; padding: 0; color: black; font-size: 18px; }
+h3 b { font-weight: 700; }
+h3 .fa { margin-right: 8px; }
+
+.padding { padding: 20px; }
+.m { margin-bottom: 20px; }
+.mb5 { margin-bottom: 5px; }
+.cl { clear: both; }
+
+.mt5 { margin-top: 5px; }
+.mt10 { margin-top: 10px; }
+.mr5 { margin-right: 5px !important; }
+.ml5 { margin-left: 5px !important; }
+.mr15 { margin-right: 15px !important; }
+.nmb { margin-bottom: 0 !important; }
+.nmt { margin-top: 0 !important; }
+.npt { padding-top: 0 !important; }
+.npb { padding-bottom: 0 !important; }
+
+.bg-smoke { background-color: #F8F8F8; }
+.bg-fade { background: linear-gradient(white,#F5F5F5); }
+.b { font-weight: bold; }
+.silver { color: #AAB2BD !important; }
+.red { color: #D63B32 !important; }
+.blue { color: #377BB5 !important; }
+.black { color: black !important; }
+.green { color: #68B25B !important; }
+.relative { position: relative; display: inline-block; }
+
+footer { border-top: 1px solid #E0E0E0; padding: 30px 0 0; text-align: center; font-size: 12px; background-color: #F8F8F8; height: 100px; }
+table td { vertical-align: middle !important;}
+
+.fs10 { font-size: 10px !important; }
+.fs11 { font-size: 11px !important; }
+.help { font-size: 11px; color: #AAB2BD; margin-top: 7px; line-height: 13px; }
+.help code { font: normal normal 11px Arial; background-color: #F0F0F0; padding: 1px 5px; border-radius: 4px; }
+.help .fa { margin-right: 5px; }
+
+.legend { margin-bottom: 10px; }
+.legend .fa { width: 14px; vertical-align: middle; margin-right: 5px; }
+.legend label { margin-right: 15px; vertical-align: middle; }
+
+.caption { margin-bottom: 15px; font-size: 12px; font-family: $font; color: black; font-weight: bold; text-transform: uppercase; }
+.caption .fa { margin-right: 5px; }
+
+hr { border-color: #E0E0E0; }
+canvas { display: block; }
+
+.section { font-size: 12px; text-transform: uppercase; margin-bottom: 20px; font-weight: bold; color: black; height: 20px; position: relative; width: 100%; }
+.section .fa { margin-right: 6px; }
+.section span { position: relative; z-index: 2; background-color: white; padding-right: 8px; }
+.section hr { position: absolute; width: 100%; margin: 8px 0 0 0; z-index: 1; border-style: dashed; }
+
+.linkbutton { display: block; font-size: 12px; padding: 6px 0; border-radius: 3px; text-decoration: none; background-color: #E9E9E9; border: 1px solid #E0E0E0; color: gray; font-size: 11px; text-align: center; margin-bottom: 15px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; transition: 0.5s all; }
+.linkbutton:hover { background-color: #E0E0E0; border-color: #D0D0D0; text-decoration: none; }
+.linkbutton .fa { margin-right: 7px; }
+
+.w18 { width: 18px; }
+.ui-error { margin: 0 20px 20px !important; }
+
+.searchresult { cursor: pointer; text-overflow: ellipsis; white-space: nowrap; padding: 3px 5px; font-size: 12px; border-radius: 3px; }
+.searchresult:nth-child(odd) { background-color: #F8F8F8; }
+.searchresult:hover { background-color: #FFF1C6; }
+.searchresult .fa { margin-right: 5px; }
+.searchresults { max-height: 200px; overflow-y: auto; overflow-x: hidden; }
