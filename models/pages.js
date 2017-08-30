@@ -3,7 +3,7 @@ NEWSCHEMA('Page').make(function(schema) {
 	schema.define('id', 'UID');
 	schema.define('parent', 'UID');
 	schema.define('name', 'String(50)', true);
-	schema.define('author', 'String(50)', true);
+	schema.define('author', 'String(50)');
 	schema.define('body', String);
 
 	schema.setGet(function($) {
