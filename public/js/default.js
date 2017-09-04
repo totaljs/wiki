@@ -8,6 +8,7 @@ SETTER(true, 'loading', 'hide');
 
 ON('ready', function() {
 	refresh_markdown();
+	refresh_height();
 	$(document).on('click', '.categorybutton', function() {
 		$('.categories').tclass('categoriesshow');
 	});
@@ -93,8 +94,17 @@ function treeclick(obj, is) {
 		document.title = obj.title;
 		$('#preview').html(response);
 		refresh_markdown();
+		refresh_height();
 		SETTER('loading', 'hide', 500);
 	});
+}
+
+function refresh_height() {
+	var preview = $('#preview');
+	var header = $('header');
+	var hp = preview.height();
+	var hh = header.height();
+	header.css('min-height', hp > hh ? hp : 'auto');
 }
 
 ON('#search', function(component) {
