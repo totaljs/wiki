@@ -1,13 +1,13 @@
 <div class="row updates">
 	<div class="col-md-6 col-sm-12 m">
 		<h2>@(Updates)</h2>
-		@{foreach m in CLONE(F.global.pages).where(n => n.dateupdated && !n.group).quicksort('dateupdated', false).take(15)}
+		@{foreach m in CLONE(F.global.pages).where(n => n.dateupdated && !n.group).quicksort('dateupdated', false).take(25)}
 			<div><a href="/@{m.url}/" class="jrouting"><span><i class="fa fa-clock-o"></i>@{m.dateupdated.format('@(yyyy-MM-dd)')}</span><span><i class="fa fa-file-o"></i>@{m.title}</span></a></div>
 		@{end}
 	</div>
 	<div class="col-md-6 col-sm-12 m">
 		<h2>@(News)</h2>
-		@{foreach m in CLONE(F.global.pages).where('group', false).quicksort('datecreated', false).take(15)}
+		@{foreach m in CLONE(F.global.pages).where('group', false).quicksort('datecreated', false).take(25)}
 			<div><a href="/@{m.url}/" class="jrouting"><span><i class="fa fa-clock-o"></i>@{m.datecreated.format('@(yyyy-MM-dd)')}</span><span><i class="fa fa-file-o"></i>@{m.title}</span></a></div>
 		@{end}
 	</div>
