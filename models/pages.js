@@ -70,20 +70,23 @@ NEWSCHEMA('Page').make(function(schema) {
 			}
 		}
 
+		var done = function() {
+			$.callback(SUCCESS(true));
+			refresh();
+		};
+
 		model.linker = model.name.slug();
 		model.search = U.keywords(search.join('\n'), true).join(' ');
 		model.group = model.body ? false : true;
 
 		if (model.id) {
 			model.dateupdated = F.datetime;
-			db.modify(model).where('id', model.id).log('update page ' + model.name, user).callback(refresh).backup(user);
+			db.modify(model).where('id', model.id).log('update page ' + model.name, user).callback(done).backup(user);
 		} else {
 			model.id = UID();
 			model.datecreated = F.datetime;
-			db.insert(model).log('create page ' + model.name, user).callback(refresh);
+			db.insert(model).log('create page ' + model.name, user).callback(done);
 		}
-
-		$.callback(SUCCESS(true));
 	});
 
 	refresh();
