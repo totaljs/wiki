@@ -8,7 +8,8 @@
       "url": "https://github.com/totaljs/wiki"
   },
   "dependencies": {
-    "total.js": "latest"
+    "total.js": "latest",
+    "marked": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
