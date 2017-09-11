@@ -1,7 +1,7 @@
 UPTODATE('1 day', '/');
 PING('/api/ping/');
 
-var common = {};
+var common = { hash: location.hash.substring(1) };
 var firstcall = true;
 
 SETTER(true, 'loading', 'hide');
@@ -12,6 +12,7 @@ ON('ready', function() {
 	$(document).on('click', '.categorybutton', function() {
 		$('.categories').tclass('categoriesshow');
 	});
+	common.hash && refresh_scroll();
 });
 
 // setTimeout because I expect that the homepage is loaded first (this is a prevention for double reading)
@@ -26,10 +27,19 @@ setTimeout(function() {
 }, 1000);
 
 $(document).on('click', '.jrouting', function(e) {
+
 	e.preventDefault();
 	e.stopPropagation();
 	var url = $(this).attr('href').substring(1);
-	url = url.substring(0, url.length - 1);
+
+	var index = url.indexOf('#');
+	if (index !== -1) {
+		common.hash = url.substring(index + 1);
+		url = url.substring(0, index - 1);
+	} else {
+		url = url.substring(0, url.length - 1);
+		common.hash = '';
+	}
 
 	var item = common.items.findItem('url', url);
 	if (item) {
@@ -88,15 +98,25 @@ function treeclick(obj, is) {
 
 	SETTER('loading', 'show');
 	var url = '/{0}/'.format(obj.url);
-	REDIRECT(url);
+
+	REDIRECT(url + (common.hash ? '#' + common.hash : ''));
 	$('.categories').rclass('categoriesshow');
 	AJAX('GET ' + url, function(response) {
 		document.title = obj.title;
 		$('#preview').html(response);
 		refresh_markdown();
 		refresh_height();
+		refresh_scroll();
 		SETTER('loading', 'hide', 500);
 	});
+}
+
+function refresh_scroll() {
+	common.hash && setTimeout(function(hash) {
+		var el = $('#' + hash);
+		el.length && $('html,body').animate({ scrollTop: el.offset().top - 50 }, 300);
+	}, 100, common.hash);
+	common.hash = '';
 }
 
 function refresh_height() {
