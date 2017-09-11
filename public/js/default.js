@@ -127,7 +127,7 @@ function refresh_height() {
 	var header = $('header');
 	var hp = preview.height();
 	var hh = header.height();
-	header.css('min-height', hp >= hh ? hp : 'auto');
+	header.css('min-height', WIDTH() !== 'xs' && hp >= hh ? hp : 'auto');
 }
 
 ON('#search', function(component) {
