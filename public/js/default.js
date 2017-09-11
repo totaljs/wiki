@@ -13,6 +13,7 @@ ON('ready', function() {
 		$('.categories').tclass('categoriesshow');
 	});
 	common.hash && refresh_scroll();
+	setTimeout(refresh_height, 100);
 });
 
 // setTimeout because I expect that the homepage is loaded first (this is a prevention for double reading)
@@ -80,6 +81,7 @@ function refresh_pages() {
 		if (sel && sel.$pointer) {
 			SETTER('tree', 'select', sel.$pointer);
 			SETTER('tree', 'expand', sel.$pointer);
+			refresh_height();
 		}
 	});
 }
@@ -108,6 +110,7 @@ function treeclick(obj, is) {
 		refresh_height();
 		refresh_scroll();
 		SETTER('loading', 'hide', 500);
+		setTimeout(refresh_height, 200);
 	});
 }
 
@@ -124,7 +127,7 @@ function refresh_height() {
 	var header = $('header');
 	var hp = preview.height();
 	var hh = header.height();
-	header.css('min-height', hp > hh ? hp : 'auto');
+	header.css('min-height', hp >= hh ? hp : 'auto');
 }
 
 ON('#search', function(component) {
