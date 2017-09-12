@@ -741,7 +741,7 @@ COMPONENT('codemirror', 'linenumbers:false', function(self, config) {
 		self.html((content ? '<div class="ui-codemirror-label' + (config.required ? ' ui-codemirror-label-required' : '') + '">' + (config.icon ? '<i class="fa fa-' + config.icon + '"></i> ' : '') + content + ':</div>' : '') + '<div class="ui-codemirror"></div>');
 		var container = self.find('.ui-codemirror');
 
-		self.editor = CodeMirror(container.get(0), { styleActiveLine: true, matchBrackets: true, lineNumbers: config.linenumbers, mode: config.type || 'htmlmixed', indentUnit: 4 });
+		self.editor = CodeMirror(container.get(0), { styleActiveLine: true, matchBrackets: true, lineWrapping: config.linewrapping, lineNumbers: config.linenumbers, mode: config.type || 'htmlmixed', indentUnit: 4 });
 		if (config.height !== 'auto') {
 			var is = typeof(config.height) === 'number';
 			self.editor.setSize('100%', is ? (config.height + 'px') : (config.height || '200px'));
