@@ -20,7 +20,7 @@ header .ui-nosqlcounter { float: right; margin: 10px 0 0 20px; }
 
 .ppreview { float: right; margin-right: 15px; }
 .ptree { float: left; width: 267px; }
-.ptree > div { float: left; margin: 14px 0 0 20px; font-size: 16px; width: 125px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ptree > a { float: left; margin: 14px 0 0 20px; font-size: 16px; width: 125px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: black; }
 .ptree nav { float: right; }
 .pbody { float: left; margin-left: 15px; }
 

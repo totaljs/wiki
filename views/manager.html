@@ -21,7 +21,7 @@
 
 	<header>
 		<div class="ptree">
-			<div><b>@{config.name}</b> v@{config.version}</div>
+			<a href="/" target="_blank"><b>@{config.name}</b> v@{config.version}</a>
 			<nav>
 				<button class="exec" data-exec="togglesearch" title="@(Search)"><i class="fa fa-search"></i></button>
 				<button class="exec" data-exec="add_newsection" title="@(Add a new section)"><i class="fa fa-plus-circle"></i></button>
@@ -289,10 +289,15 @@
 
 		// COMMON
 
-		function preview(value) {
+		function preview(value, reset) {
 			setTimeout2('preview', function(value) {
-				$('#preview').html(markdown(value));
+				var el = $('#preview');
+				var position = reset ? 0 : el.prop('scrollTop');
+				el.html(markdown(value));
 				refresh_markdown();
+				setTimeout(function() {
+					el.prop('scrollTop', position + (reset ? 0 : 10));
+				}, 100);
 			}, 150, 50, value);
 		}
 
@@ -310,7 +315,7 @@
 					SET('common.state', 0);
 					AJAX('GET /api/pages/' + obj.id, function(response) {
 						SET('current', response);
-						preview(response.body);
+						common.preview && preview(response.body, true);
 						AJAX('GET /api/stats/' + obj.id, 'stats');
 						setTimeout(function() {
 							common.change = false;
@@ -334,7 +339,7 @@
 
 			component.on('change', function(value) {
 				common.change = true;
-				preview(value);
+				common.preview && preview(value);
 			});
 
 			component.editor.on('drop',function(editor, e) {
@@ -381,6 +386,7 @@
 
 		function togglepreview() {
 			SET('common.preview', !common.preview);
+			common.preview && preview(FIND('codemirror').editor.getValue(), true);
 		}
 
 		function togglesearch(el) {
