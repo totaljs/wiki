@@ -16,7 +16,7 @@ header nav a { display: block; }
 .categorybutton:hover { background-color: #E0E0E0; }
 .categorybutton:active { background-color: #D0D0D0; }
 
-.bg { box-shadow: 0 -5px 30px rgba(0,0,0,0.1); background-color: white; }
+.bg { box-shadow: 0 -5px 30px rgba(0,0,0,0.1); background-color: white; height: 100%; }
 
 section { margin-left: 300px; min-height: 100%; background-color: white; }
 .padding { padding: 20px; }
