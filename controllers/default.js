@@ -27,9 +27,9 @@ function wiki() {
 			var counter = NOSQL('pages').counter;
 			counter.hit('all');
 			counter.hit(response.id);
+			response.title = item.title;
 		}
 
-		response.title = item.title;
 		self.view('detail', response);
 	});
 }
