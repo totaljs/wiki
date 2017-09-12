@@ -1,3 +1,10 @@
+@{if model}
+<nav class="navigation">
+	<a href="javascript:void(0)" class="jrouting disabled"><i class="fa fa-chevron-left"></i>@(Previous)</a>
+	<a href="javascript:void(0)" class="jrouting disabled">@(Next)<i class="fa fa-chevron-right"></i></a>
+</nav>
+<div class="title"><i class="fa fa-folder-o"></i>@{model.title}</div>
+@{fi}
 <div class="padding">
 	@{if model}
 		<div class="date">@{if model.dateupdated}<b>@(Updated:)</b> @{model.dateupdated.format('dd. MMMM yyyy')}@{else}<b>@(Created:)</b> @{model.datecreated.format('dd. MMMM yyyy')}@{fi}</div>

@@ -2,12 +2,16 @@ UPTODATE('1 day', '/');
 PING('/api/ping/');
 
 var common = { hash: location.hash.substring(1) };
+
+// Helpers
 var firstcall = true;
+var clickcall = false;
 
 SETTER(true, 'loading', 'hide');
 
 ON('ready', function() {
 	refresh_markdown();
+	refresh_navigation();
 	refresh_height();
 	$(document).on('click', '.categorybutton', function() {
 		$('.categories').tclass('categoriesshow');
@@ -18,6 +22,8 @@ ON('ready', function() {
 
 // setTimeout because I expect that the homepage is loaded first (this is a prevention for double reading)
 setTimeout(function() {
+
+	// Default route
 	ROUTE('/', function() {
 		SETTER('tree', 'unselect');
 		AJAX('GET /', function(response) {
@@ -25,6 +31,21 @@ setTimeout(function() {
 			SETTER('loading', 'hide', 500);
 		});
 	});
+
+	// Because of browser's navigation: back/next page
+	ON('location', function(url) {
+		// User clicked on class=".jrouting" link
+		if (clickcall) {
+			clickcall = false;
+			return;
+		}
+		var item = common.items.findItem('url', url.substring(1, url.length - 1));
+		if (item) {
+			SETTER('tree', 'select', item.$pointer);
+			SETTER('tree', 'expand', item.$pointer);
+		}
+	});
+
 }, 1000);
 
 $(document).on('click', '.jrouting', function(e) {
@@ -53,11 +74,12 @@ $(document).on('click', '.jrouting', function(e) {
 function refresh_pages() {
 	AJAX('GET /api/pages/', function(response) {
 
-		function tree(parent) {
+		function tree(idparent, parent) {
 			var output = [];
 			for (var i = 0, length = response.length; i < length; i++) {
-				if (response[i].parent === parent) {
+				if (response[i].parent === idparent) {
 					!response[i].group && (response[i].children = null);
+					response[i].parent = parent;
 					output.push(response[i]);
 				}
 			}
@@ -67,7 +89,7 @@ function refresh_pages() {
 		var output = [];
 
 		response.forEach(function(item) {
-			item.children = tree(item.id);
+			item.children = tree(item.id, item);
 			if (item.group) {
 				!item.children && (item.children = []);
 			} else
@@ -101,17 +123,40 @@ function treeclick(obj, is) {
 	SETTER('loading', 'show');
 	var url = '/{0}/'.format(obj.url);
 
-	REDIRECT(url + (common.hash ? '#' + common.hash : ''));
+	if (NAV.url !== url) {
+		clickcall = true;
+		url = url + (common.hash ? '#' + common.hash : '');
+		REDIRECT(url);
+	}
+
 	$('.categories').rclass('categoriesshow');
 	AJAX('GET ' + url, function(response) {
 		document.title = obj.title;
 		$('#preview').html(response);
 		refresh_markdown();
+		refresh_navigation();
 		refresh_height();
 		refresh_scroll();
 		SETTER('loading', 'hide', 500);
 		setTimeout(refresh_height, 200);
 	});
+}
+
+function refresh_navigation() {
+
+	var el = $('.navigation');
+	var current = common.items.findItem('url', NAVIGATION.url.substring(1, NAVIGATION.url.length - 1));
+	if (!current || !current.parent)
+		return;
+
+	var children = current.parent.children;
+	var index = children.findIndex('id', current.id);
+	if (index === -1)
+		return;
+	var prev = children[index - 1];
+	var next = children[index + 1];
+	prev && el.find('a:eq(0)').rclass('disabled').attr('href', '/{0}/'.format(prev.url));
+	next && el.find('a:eq(1)').rclass('disabled').attr('href', '/{0}/'.format(next.url));
 }
 
 function refresh_scroll() {
@@ -158,6 +203,6 @@ ON('#search', function(component) {
 			SETTER('tree', 'select', value.value);
 			SETTER('tree', 'expand', value.value);
 			SET('common.search', '');
-		}, 13, -5, 40);
+		}, 13, -5, isMOBILE ? 40 : 200);
 	});
 });

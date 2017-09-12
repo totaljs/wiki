@@ -29,6 +29,7 @@ function wiki() {
 			counter.hit(response.id);
 		}
 
+		response.title = item.title;
 		self.view('detail', response);
 	});
 }
