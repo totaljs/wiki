@@ -32,8 +32,8 @@ header .ui-nosqlcounter { float: right; margin: 10px 0 0 20px; }
 .controls button:hover { background-color: #F8F8F8; }
 .controls button:active { color: gray; }
 
-.showpreview .editor { width: 45%; }
-.showpreview .preview { width: 55%; display: block; height: 100%; overflow: auto; }
+.showpreview .editor { width: 55%; }
+.showpreview .preview { width: 45%; display: block; height: 100%; overflow: auto; }
 
 h1 { font-weight: 400; font-family: 'Source Sans Pro'; margin: 0 0 20px 0; padding: 0; color: black; font-size: 30px; }
 h1 b { font-weight: 700; }
