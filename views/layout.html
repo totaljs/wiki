@@ -18,24 +18,26 @@
 	<div data-jc="loading" class="ui-loading"></div>
 
 	<div class="container">
-		<header>
-			<div class="padding">
-				<a href="/" class="logo"><b>@{config.name}</b> v@{config.version}</a>
-				<div data-jc="textbox" data-jc-path="common.search" data-jc-config="type:search;placeholder:@(Search in Wiki ...)" data-jc-id="search"></div>
-				<br />
-				<div class="categories">
-					<div data-jc="tree" data-jc-path="common.pages" data-jc-config="exec:treeclick;first:false"></div>
+		<div class="bg">
+			<header>
+				<div class="padding">
+					<a href="/" class="logo"><b>@{config.name}</b> v@{config.version}</a>
+					<div data-jc="textbox" data-jc-path="common.search" data-jc-config="type:search;placeholder:@(Search in Wiki ...)" data-jc-id="search"></div>
+					<br />
+					<div class="categories">
+						<div data-jc="tree" data-jc-path="common.pages" data-jc-config="exec:treeclick;first:false"></div>
+					</div>
+					<button class="categorybutton"><i class="fa fa-plus-circle"></i>@(Toggle content)</button>
+					<footer>
+						@(All rights reserved &copy; 2017)<br />
+						<a href="https://www.totaljs.com/wiki/" target="_blank">Total.js Wiki</a>
+					</footer>
 				</div>
-				<button class="categorybutton"><i class="fa fa-plus-circle"></i>@(Toggle content)</button>
-				<footer>
-					@(All rights reserved &copy; 2017)<br />
-					<a href="https://www.totaljs.com/wiki/" target="_blank">Total.js Wiki</a>
-				</footer>
-			</div>
-		</header>
-		<section id="preview">
-			@{body}
-		</section>
+			</header>
+			<section id="preview">
+				@{body}
+			</section>
+		</div>
 	</div>
 	@{section('script')}
 </body>

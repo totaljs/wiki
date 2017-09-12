@@ -825,6 +825,10 @@ function refresh_markdown() {
 		marked_video(el.find('.lang-video'));
 		marked_iframe(el.find('.lang-iframe'));
 		el.find('pre code').each(FN('(i,b) => hljs.highlightBlock(b)'));
+		el.find('a').each(function() {
+			var el = $(this);
+			el.attr('href').substring(0, 1) !== '/' && el.attr('target', '_blank');
+		});
 	}
 }
 
