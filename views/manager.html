@@ -296,7 +296,7 @@
 				el.html(markdown(value));
 				refresh_markdown();
 				setTimeout(function() {
-					el.prop('scrollTop', position + (reset ? 0 : 10));
+					el.prop('scrollTop', position);
 				}, 100);
 			}, 150, 50, value);
 		}
