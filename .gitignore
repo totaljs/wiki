@@ -1,3 +1,12 @@
+# Dependency directories
+node_modules/
+tmp/
+logs/
+databases/
 
+# Optional npm cache directory
+.npm
+debug.pid
+.DS_Store
 sftp-config.json
 tmp/*
