@@ -115,6 +115,11 @@ function refresh_pages() {
 			SETTER('tree', 'expand', sel.$pointer);
 			refresh_height();
 		}
+
+		setTimeout(function() {
+			firstcall = false;
+		}, 500);
+
 	});
 }
 
