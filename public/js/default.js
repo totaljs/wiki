@@ -114,6 +114,10 @@ function treeclick(obj, is) {
 
 	if (firstcall) {
 		firstcall = false;
+		if (obj.children) {
+			var item = obj.children.findItem('children', null);
+			item && SETTER('tree', 'select', item.$pointer);
+		}
 		return;
 	}
 
