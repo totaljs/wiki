@@ -9,7 +9,7 @@ footer { text-align: center; font-size: 11px; color: #A0A0A0; margin: 20px 0; }
 .container { height: 100%; }
 .logo { font-size: 16px; margin-bottom: 10px; color: black; display: block; }
 
-header { float: left; width: 300px; height: 100%; min-height: 100%; background-color: white; border-right: 1px solid #F0F0F0; color: black; }
+header { float: left; width: 333px; height: 100%; min-height: 100%; background-color: white; border-right: 1px solid #F0F0F0; color: black; }
 header nav a { display: block; }
 .categorybutton { border: 0; text-align: center; width: 100%; background-color: #F0F0F0; border-radius: 4px; height: 30px; outline: 0; display: none; }
 .categorybutton .fa { margin-right: 5px; }
@@ -18,7 +18,7 @@ header nav a { display: block; }
 
 .bg { box-shadow: 0 -5px 30px rgba(0,0,0,0.1); background-color: white; height: 100%; }
 
-section { margin-left: 300px; min-height: 100%; background-color: white; }
+section { margin-left: 333px; min-height: 100%; background-color: white; }
 .padding { padding: 20px; }
 .date { font-size: 12px; float: right; }
 .author { font-size: 12px; }
