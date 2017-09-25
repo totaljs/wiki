@@ -83,6 +83,15 @@ function refresh_pages() {
 					output.push(response[i]);
 				}
 			}
+
+			output.quicksort('name');
+			output.sort(function(a, b) {
+				if (!a.children && b.children)
+					return 1;
+				if (a.children && !b.children)
+					return -1;
+				return Intl.Collator().compare(a.name, b.name);
+			});
 			return output;
 		}
 
@@ -99,6 +108,7 @@ function refresh_pages() {
 
 		SET('common.pages', output);
 		SET('common.items', response);
+
 		var sel = response.findItem('url', NAVIGATION.url.substring(1, NAVIGATION.url.length - 1));
 		if (sel && sel.$pointer) {
 			SETTER('tree', 'select', sel.$pointer);
@@ -119,11 +129,8 @@ function treeclick(obj, group, expanded) {
 		}
 	}
 
-	if (obj.children && group && expanded && (!isMOBILE || firstcall)) {
-
-		if (isMOBILE && firstcall)
-			firstcall = false;
-
+	if (obj.children && group && expanded && firstcall) {
+		firstcall = false;
 		var item = obj.children.findItem('children', null);
 		if (item) {
 			SETTER('tree', 'select', item.$pointer);
