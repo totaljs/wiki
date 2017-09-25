@@ -108,9 +108,9 @@ input[type="text"]:disabled, input[type="password"]:disabled, select:disabled { 
 .markdown th { background-color: #F8F8F8; }
 .markdown blockquote { padding: 0 15px; color: #777; border-left: 4px solid #DDD; margin: 10px 0; }
 .markdown hr { border-color: #E0E0E0; border-width: 2px; }
-.markdown h1 code { font-size: 30px; }
-.markdown h2 code { font-size: 25px; }
-.markdown h3 code { font-size: 20px; }
+.markdown h1 code { font-size: 28px; font-weight: normal; }
+.markdown h2 code { font-size: 23px; font-weight: normal; }
+.markdown h3 code { font-size: 18px; font-weight: normal; }
 
 .video { position: relative; padding-bottom: 56.25%; padding-top: 25px; height: 0; margin-bottom: 15px; }
 .video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
