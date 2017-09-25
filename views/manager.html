@@ -34,6 +34,9 @@
 				<button class="exec btn-centered" data-exec="upd_document" title="@(Page setting)"><i class="fa fa-hashtag"></i></button>
 				<button class="exec btn-centered" data-exec="rem_document" title="@(Remove page)"><i class="fa fa-times"></i></button>
 			</nav>
+			<nav>
+				<button class="exec btn-centered" data-exec="add_document" title="@(Add page)"><i class="fa fa-plus"></i></button>
+			</nav>
 			<div class="meta">@(ID:) <span data-b="current.id" data-b-html="value" class="b"></span></div>
 		</div>
 		<div class="ppreview hidden" data-b="common.state" data-b-visible="value === 0">
@@ -237,6 +240,16 @@
 							output.push(response[i]);
 						}
 					}
+
+					output.quicksort('name');
+					output.sort(function(a, b) {
+						if (!a.children && b.children)
+							return 1;
+						if (a.children && !b.children)
+							return -1;
+						return Intl.Collator().compare(a.name, b.name);
+					});
+
 					return output;
 				}
 
