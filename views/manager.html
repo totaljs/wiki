@@ -18,6 +18,7 @@
 
 	<div data-jc="loading" class="ui-loading"></div>
 	<div data-jc="confirm"></div>
+	<div data-jc="shortcuts"></div>
 
 	<header>
 		<div class="ptree">
@@ -287,6 +288,10 @@
 		}
 
 		function sav_document(component) {
+
+			if (common.state)
+				return;
+
 			SETTER('loading', 'show');
 			AJAX('POST /api/pages/', current, function() {
 
@@ -442,6 +447,18 @@
 		function logoff() {
 			location.href = '@{'%manager-url'}/logoff/';
 		}
+
+		SETTER(true, 'shortcuts', 'register', 'CMD+s', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			sav_document();
+		});
+
+		SETTER(true, 'shortcuts', 'register', 'CTRL+s', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			sav_document();
+		});
 
 	</script>
 
