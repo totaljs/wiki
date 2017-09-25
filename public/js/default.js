@@ -181,6 +181,7 @@ function refresh_navigation() {
 	var index = children.findIndex('id', current.id);
 	if (index === -1)
 		return;
+
 	var prev = children[index - 1];
 	var next = children[index + 1];
 	prev && el.find('a:eq(0)').rclass('disabled').attr('href', '/{0}/'.format(prev.url));
