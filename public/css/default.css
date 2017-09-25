@@ -22,7 +22,7 @@ section { margin-left: 300px; min-height: 100%; background-color: white; }
 .padding { padding: 20px; }
 .date { font-size: 12px; float: right; }
 .author { font-size: 12px; }
-.title { font-size: 14px; color: gray; padding: 10px 20px; background: #F0F0F0 linear-gradient(white,#F8F8F8); border-bottom: 1px solid #E0E0E0; }
+.title { font-size: 14px; color: gray; padding: 10px 20px; background: #F0F0F0 linear-gradient(white,#F8F8F8); border-bottom: 1px solid #E0E0E0; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 .title .fa { margin-right: 8px; }
 .nmb { margin-bottom: 0 !important; }
 

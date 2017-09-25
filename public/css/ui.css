@@ -14,7 +14,7 @@
 .ui-tree .node {}
 .ui-tree .children { display: none; }
 .ui-tree .item .fa { width: 16px; margin-right: 3px; }
-.ui-tree .item { cursor: pointer; padding: 6px 18px; font-size: 14px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #E0E0E0; }
+.ui-tree .item { cursor: pointer; padding: 6px 10px; font-size: 14px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #E0E0E0; }
 .ui-tree .item:hover { background-color: #F0F0F0; }
 .ui-tree .show > .children { display: block; }
 .ui-tree .show > .item { font-weight: bold; background-color: #F8F8F8; }
@@ -122,6 +122,7 @@ input[type="text"]:disabled, input[type="password"]:disabled, select:disabled { 
 .hidden { display: none; }
 
 @media(max-width: 767px) {
+	.markdown h1 { font-size: 28px; }
 	.ui-confirm button { display: block; margin: 10px 0 0; display: block; width: 100%; }
 }
 

@@ -5,7 +5,7 @@ COMPONENT('tree', 'selected:selected', function(self, config) {
 	var expanded = {};
 	var selindex = -1;
 
-	self.template = Tangular.compile('<div class="item{{ if children }} expand{{ fi }}" data-index="{{ $pointer }}"><i class="fa fa-{{ if children }}folder{{ else }}file-o{{ fi }}"></i>{{ name }}</div>');
+	self.template = Tangular.compile('<div class="item{{ if children }} expand{{ fi }}" title="{{ name }}" data-index="{{ $pointer }}"><i class="fa fa-{{ if children }}folder{{ else }}file-o{{ fi }}"></i>{{ name }}</div>');
 	self.readonly();
 
 	self.make = function() {
