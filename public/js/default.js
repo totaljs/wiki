@@ -110,18 +110,29 @@ function refresh_pages() {
 
 refresh_pages();
 
-function treeclick(obj, is) {
+function treeclick(obj, group, expanded) {
 
 	if (firstcall) {
-		firstcall = false;
-		if (obj.children) {
-			var item = obj.children.findItem('children', null);
-			item && SETTER('tree', 'select', item.$pointer);
+		if (!obj.children) {
+			firstcall = false;
+			return;
 		}
-		return;
 	}
 
-	if (is)
+	if (obj.children && group && expanded && (!isMOBILE || firstcall)) {
+
+		if (isMOBILE && firstcall)
+			firstcall = false;
+
+		var item = obj.children.findItem('children', null);
+		if (item) {
+			SETTER('tree', 'select', item.$pointer);
+			SETTER('tree', 'expand', item.$pointer);
+		}
+		group = true;
+	}
+
+	if (group)
 		return;
 
 	SETTER('loading', 'show');
@@ -135,6 +146,7 @@ function treeclick(obj, is) {
 
 	$('.categories').rclass('categoriesshow');
 	AJAX('GET ' + url, function(response) {
+		$('html,body').prop('scrollTop', 0);
 		document.title = obj.title;
 		$('#preview').html(response);
 		refresh_markdown();
