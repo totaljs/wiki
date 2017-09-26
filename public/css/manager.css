@@ -6,7 +6,7 @@ body { background-color: white; padding: 0; color: #303030; overflow-y: scroll; 
 
 header { background: linear-gradient(white,#F0F0F0); height: 50px; position: fixed; left: 0; right: 0; top: 0; border-bottom: 1px solid #E0E0E0; color: black; }
 header nav { float: left; border: 1px solid #D0D0D0; margin: 10px 0 0 10px; border-radius: 4px; }
-header nav button { border: 0; border-left: 1px solid #E0E0E0; background-color: white; font-size: 15px; min-width: 34px; height: 28px; color: black; outline: 0; }
+header nav button { border: 0; border-left: 1px solid #E0E0E0; background-color: white; font-size: 15px; min-width: 32px; height: 28px; color: black; outline: 0; }
 header nav button:hover { background-color: #E0E0E0; text-shadow: 1px 1px 1px white; }
 header nav button:first-child { border-left: 0; border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
 header nav button:last-child { border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
@@ -20,7 +20,7 @@ header .ui-nosqlcounter { float: right; margin: 10px 0 0 20px; }
 
 .ppreview { float: right; margin-right: 15px; }
 .ptree { float: left; width: 267px; }
-.ptree > a { float: left; margin: 14px 0 0 20px; font-size: 16px; width: 125px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: black; }
+.ptree > a { float: left; margin: 14px 0 0 20px; font-size: 16px; width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: black; }
 .ptree nav { float: right; }
 .pbody { float: left; margin-left: 15px; }
 
