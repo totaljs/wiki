@@ -48,6 +48,15 @@ setTimeout(function() {
 
 }, 1000);
 
+$(document).on('click', '.markdown a', function(e) {
+	var href = $(this).attr('href');
+	if (href.substring(0, 1) === '#') {
+		location.hash = href;
+		e.preventDefault();
+		e.stopPropagation();
+	}
+});
+
 $(document).on('click', '.jrouting', function(e) {
 
 	e.preventDefault();
