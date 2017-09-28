@@ -293,6 +293,8 @@
 				return;
 
 			SETTER('loading', 'show');
+			current.body = FIND('codemirror').editor.getValue();
+
 			AJAX('POST /api/pages/', current, function() {
 
 				common.change = false;

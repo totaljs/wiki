@@ -105,4 +105,4 @@ canvas { display: block; }
 .searchresult:nth-child(odd) { background-color: #F8F8F8; }
 .searchresult:hover { background-color: #FFF1C6; }
 .searchresult .fa { margin-right: 5px; }
-.searchresults { max-height: 200px; overflow-y: auto; overflow-x: hidden; }
+.searchresults { max-height: 200px; overflow-y: auto; overflow-x: hidden; overflow-scrolling: touch; }
