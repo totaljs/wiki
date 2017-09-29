@@ -827,7 +827,9 @@ function refresh_markdown() {
 		el.find('pre code').each(FN('(i,b) => hljs.highlightBlock(b)'));
 		el.find('a').each(function() {
 			var el = $(this);
-			el.attr('href').substring(0, 1) !== '/' && el.attr('target', '_blank');
+			var href = el.attr('href');
+			href.substring(0, 1) !== '/' && el.attr('target', '_blank');
+			href === '#' && el.attr('href', '#' + el.html().toLowerCase().replace(/[^\w]+/g, '-'));
 		});
 	}
 }
