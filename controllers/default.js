@@ -24,9 +24,19 @@ function wiki() {
 		!self.xhr && self.title(item.title);
 
 		if (response) {
+
 			var counter = NOSQL('pages').counter;
-			counter.hit('all');
+
 			counter.hit(response.id);
+
+			if (self.query.type === 'markdown') {
+				counter.hit('markdown');
+				self.binary(Buffer.from(response.body), 'text/markdown', 'utf8', item.title.slug() + '.md');
+				return;
+			} else {
+				counter.hit('all');
+			}
+
 			response.title = item.title;
 		}
 

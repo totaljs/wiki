@@ -1,11 +1,12 @@
 @{if model}
 <nav class="navigation">
 	<a href="javascript:void(0)" class="jrouting disabled"><i class="fa fa-chevron-left"></i>@(Previous)</a>
+	<a href="@{url}?type=markdown" class="download"><i class="fa fa-cloud-download"></i><b>@(Download)</b><span>@(Markdown format)</span></a>
 	<a href="javascript:void(0)" class="jrouting disabled">@(Next)<i class="fa fa-chevron-right"></i></a>
 </nav>
 <div class="title"><i class="fa fa-folder-o"></i>@{model.title}</div>
 @{fi}
-<div class="padding">
+<div class="padding" style="padding-bottom:5px">
 	@{if model}
 		<div class="date">@{if model.dateupdated}<b>@(Updated:)</b> @{model.dateupdated.format('dd. MMMM yyyy')}@{else}<b>@(Created:)</b> @{model.datecreated.format('dd. MMMM yyyy')}@{fi}</div>
 		@{if model.author}<div class="author"><b>@(Author:)</b> @{model.author}</div>@{fi}
@@ -21,3 +22,9 @@
 		@{fi}
 	</div>
 </div>
+@{if model}
+	<nav class="navigationfooter">
+		<a href="@{url}?type=markdown" class="download"><i class="fa fa-cloud-download"></i><b>@(Download:)</b> @(Markdown format)</a>
+		<a href="javascript:void(0)" class="jrouting disabled">@(Next)<i class="fa fa-chevron-right"></i></a>
+	</nav>
+@{fi}

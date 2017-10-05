@@ -10,14 +10,21 @@ var clickcall = false;
 SETTER(true, 'loading', 'hide');
 
 ON('ready', function() {
-	refresh_markdown();
+	refresh_markdown(true);
 	refresh_navigation();
-	refresh_height();
 	$(document).on('click', '.categorybutton', function() {
 		$('.categories').tclass('categoriesshow');
 	});
 	common.hash && refresh_scroll();
-	setTimeout(refresh_height, 100);
+
+
+	$(document).on('click', 'h1,h2,h3', function() {
+		var el = $(this);
+		var id = el.attr('id');
+
+		if (id)
+			location.hash = id;
+	});
 });
 
 // setTimeout because I expect that the homepage is loaded first (this is a prevention for double reading)
@@ -122,7 +129,6 @@ function refresh_pages() {
 		if (sel && sel.$pointer) {
 			SETTER('tree', 'select', sel.$pointer);
 			SETTER('tree', 'expand', sel.$pointer);
-			refresh_height();
 		}
 
 		setTimeout(function() {
@@ -170,12 +176,10 @@ function treeclick(obj, group, expanded) {
 		$('html,body').prop('scrollTop', 0);
 		document.title = obj.title;
 		$('#preview').html(response);
-		refresh_markdown();
+		refresh_markdown(true);
 		refresh_navigation();
-		refresh_height();
 		refresh_scroll();
 		SETTER('loading', 'hide', 500);
-		setTimeout(refresh_height, 200);
 	});
 }
 
@@ -183,6 +187,7 @@ function refresh_navigation() {
 
 	var el = $('.navigation');
 	var current = common.items.findItem('url', NAVIGATION.url.substring(1, NAVIGATION.url.length - 1));
+
 	if (!current || !current.parent)
 		return;
 
@@ -194,8 +199,12 @@ function refresh_navigation() {
 	var prev = children[index - 1];
 	var next = children[index + 1];
 
-	prev && !prev.children && el.find('a:eq(0)').rclass('disabled').attr('href', '/{0}/'.format(prev.url));
-	next && !next.children && el.find('a:eq(1)').rclass('disabled').attr('href', '/{0}/'.format(next.url));
+	prev && !prev.children && el.find('a.jrouting:eq(0)').rclass('disabled').attr('href', '/{0}/'.format(prev.url));
+
+	if (next && !next.children) {
+		el.find('a.jrouting:eq(1)').rclass('disabled').attr('href', '/{0}/'.format(next.url));
+		$('.navigationfooter').find('a.jrouting').rclass('disabled').attr('href', '/{0}/'.format(next.url));
+	}
 }
 
 function refresh_scroll() {
@@ -204,14 +213,6 @@ function refresh_scroll() {
 		el.length && $('html,body').animate({ scrollTop: el.offset().top - 50 }, 300);
 	}, 100, common.hash);
 	common.hash = '';
-}
-
-function refresh_height() {
-	var preview = $('#preview');
-	var header = $('header');
-	var hp = preview.height();
-	var hh = header.height();
-	header.css('min-height', WIDTH() !== 'xs' && hp >= hh ? hp : 'auto');
 }
 
 ON('#search', function(component) {

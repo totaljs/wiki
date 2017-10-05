@@ -9,16 +9,16 @@ footer { text-align: center; font-size: 11px; color: #A0A0A0; margin: 20px 0; }
 .container { height: 100%; }
 .logo { font-size: 16px; margin-bottom: 10px; color: black; display: block; }
 
-header { float: left; width: 333px; height: 100%; min-height: 100%; background-color: white; border-right: 1px solid #F0F0F0; color: black; }
+header { display: table-cell; width: 333px; height: 100%; background-color: white; border-right: 1px solid #F0F0F0; color: black; vertical-align: top; }
 header nav a { display: block; }
 .categorybutton { border: 0; text-align: center; width: 100%; background-color: #F0F0F0; border-radius: 4px; height: 30px; outline: 0; display: none; }
 .categorybutton .fa { margin-right: 5px; }
 .categorybutton:hover { background-color: #E0E0E0; }
 .categorybutton:active { background-color: #D0D0D0; }
 
-.bg { box-shadow: 0 -5px 30px rgba(0,0,0,0.1); background-color: white; height: 100%; }
+.bg { box-shadow: 0 -5px 30px rgba(0,0,0,0.1); background-color: white; height: 100%; display: table; width: 100%; table-layout: fixed; }
 
-section { margin-left: 333px; min-height: 100%; background-color: white; }
+section { display: table-cell; height: 100%; background-color: white; vertical-align: top; }
 .padding { padding: 20px; }
 .date { font-size: 12px; float: right; }
 .author { font-size: 12px; }
@@ -33,16 +33,28 @@ section { margin-left: 333px; min-height: 100%; background-color: white; }
 .updates a:hover { background-color: #F0F0F0; text-decoration: none; }
 
 .navigation { height: 50px; }
-.navigation a { float: left; width: 50%; height: 50px; display: block; text-decoration: none; color: black; font-size: 16px; border-left: 1px solid #E0E0E0; border-bottom: 1px solid #E0E0E0; border-top: 0; text-align: center; padding: 13px 0 0 0; font-weight: bold; }
+.navigation a { float: left; width: 40%; height: 50px; display: block; text-decoration: none; color: black; font-size: 15px; border-left: 1px solid #E0E0E0; border-bottom: 1px solid #E0E0E0; border-top: 0; text-align: center; padding: 13px 0 0 0; font-weight: bold; }
 .navigation a:first-child { border-left: 0; }
 .navigation a:hover { background-color: #F0F0F0; }
+.navigation a.download { width: 20%; font-size: 12px; padding-top: 10px; font-weight: normal; line-height: 14px; }
+.navigation a.download span { display: block; font-size: 11px; color: gray; }
+.navigation a.download .fa { margin-right: 5px; margin-left: 0; font-size: 12px; }
 .navigation .disabled { cursor: not-allowed; color: silver !important; background-color: white !important; }
 .navigation .fa { margin: 0 10px; }
 
+.navigationfooter { height: 50px; border-top: 2px solid #D0D0D0; padding: 0 20px; }
+.navigationfooter a { float: right; text-decoration: none; color: black; font-size: 14px; border-top: 0; text-align: center; padding: 15px 0 0 0; font-weight: bold; display: inline-block; position: relative; }
+.navigationfooter a:first-child { border-left: 0; }
+.navigationfooter a:hover { color: gray; }
+.navigationfooter .download { font-weight: normal; float: left; }
+.navigationfooter .download .fa { margin-left: 0; margin-right: 5px; }
+.navigationfooter .disabled { cursor: not-allowed; color: silver !important; background-color: white !important; }
+.navigationfooter .fa { margin-left: 10px; }
+
 @media(max-width: 768px) {
 	body { background-color: white; }
-	section { margin-left: 0; }
-	header { float: none; width: 100%; height: auto; border-bottom: 2px solid black; border-right: 0; }
+	section { margin-left: 0; min-height: auto; display: block; }
+	header { float: none; width: 100%; height: auto; border-bottom: 2px solid black; border-right: 0; display: block; }
 	footer { display: none; }
 	.categorybutton { display: block; }
 	.categories { display: none; margin-bottom: 20px; }
@@ -51,5 +63,6 @@ section { margin-left: 333px; min-height: 100%; background-color: white; }
 	.author { margin-bottom: 10px; }
 	.container { padding-left: 0; padding-right: 0; }
 	section { height: auto; }
-	.navigation a { border-bottom: 2px solid black; border-left-color: black; }
+	.navigation a { border-bottom: 2px solid black; border-left-color: black; width: 50%; }
+	.navigation .download { display: none; }
 }
