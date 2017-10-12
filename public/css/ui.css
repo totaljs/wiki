@@ -97,22 +97,24 @@ input[type="text"]:disabled, input[type="password"]:disabled, select:disabled { 
 
 .markdown { font-size: 16px; line-height: 22px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; color: #404040; overflow-x: hidden; }
 .markdown code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
-.markdown h1 { cursor: default; margin: 0 0 20px; font-size: 30px; padding: 0 0 13px; border-bottom: 1px solid #E0E0E0; color: black; line-height: 38px; font-family: -apple-systm, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; font-weight: normal; line-height: 32px; }
-.markdown h2 { cursor: default; margin: 30px 0 18px; font-weight: bold; font-size: 25px; padding: 0 0 8px; border-bottom: 1px solid #E0E0E0; color: black; line-height: 28px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
-.markdown h3, .markdown h4, .markdown h5 { cursor: default; margin: 30px 0 10px; font-size: 20px; padding: 0 0 5px; color: #404040; font-weight: bold; line-height: 22px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
-.markdown p { margin: 0 0 20px; }
+.markdown h1 { cursor: default; margin: 0 0 20px; font-size: 30px; padding: 0 5px 13px; border-bottom: 1px solid #E0E0E0; color: black; line-height: 38px; font-family: -apple-systm, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; font-weight: normal; line-height: 32px; }
+.markdown h2 { cursor: default; margin: 30px 0 18px; font-weight: bold; font-size: 25px; padding: 0 5px 8px; border-bottom: 1px solid #E0E0E0; color: black; line-height: 28px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+.markdown h3 { cursor: default; margin: 30px 0 10px; font-size: 20px; padding: 0 5px 5px; color: #404040; font-weight: bold; line-height: 22px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+.markdown h4, .markdown h5 { cursor: default; margin: 15px 0 10px; font-size: 17px; color: #505050; font-weight: bold; line-height: 22px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; background-color: #F5F5F5; padding: 3px 5px 2px; border-radius: 3px; }
+.markdown p { margin: 0 0 20px; padding-left: 5px; padding-right: 5px; }
 .markdown p code, .markdown li code, .markdown blockquote code, .markdown h1 code, .markdown h2 code, .markdown h3 code, .markdown h4 code, .markdown td code { background-color: #E0E0E0; padding: 1px 4px 2px; border-radius: 3px; font-size: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 .markdown pre { padding: 0; border-radius: 4px; margin: 20px 0; width: 100%; }
 .markdown pre code { padding: 15px; font-size: 14px; line-height: 18px; overflow-scrolling: touch; }
-.markdown table { width: 100%; }
+.markdown table { width: 100%; margin: 0 5px; }
 .markdown ul { margin: 0 0 20px 0; padding: 0 0 0 2em; }
 .markdown img { max-width: 100%; }
 .markdown th { background-color: #F8F8F8; }
-.markdown blockquote { padding: 0 15px; color: #777; border-left: 4px solid #DDD; margin: 10px 0; }
+.markdown blockquote { padding: 0 15px; color: #777; border-left: 4px solid #DDD; margin: 10px 5px; }
 .markdown hr { border-color: #E0E0E0; border-width: 2px; }
 .markdown h1 code { font-size: 28px; font-weight: normal; background-color: #DAE8F8; }
 .markdown h2 code { font-size: 23px; font-weight: normal; background-color: #DAE8F8; }
 .markdown h3 code { font-size: 18px; font-weight: normal; background-color: #DAE8F8; }
+.markdown h4 code { font-size: 17px; font-weight: normal; background-color: #DAE8F8; }
 .markdown a code { background-color: #DAE8F8; text-decoration: none !important; }
 
 .video { position: relative; padding-bottom: 56.25%; padding-top: 25px; height: 0; margin-bottom: 15px; }
