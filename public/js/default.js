@@ -15,16 +15,45 @@ ON('ready', function() {
 	$(document).on('click', '.categorybutton', function() {
 		$('.categories').tclass('categoriesshow');
 	});
-	common.hash && refresh_scroll();
 
+	common.hash && refresh_scroll();
 
 	$(document).on('click', 'h1,h2,h3', function() {
 		var el = $(this);
 		var id = el.attr('id');
-
 		if (id)
 			location.hash = id;
 	});
+
+
+	setTimeout(function() {
+		var sel = NAV.url.substring(1, NAV.url.length - 1);
+		var item = common.items.findItem('url', sel);
+
+		if (!item) {
+			var q = MAIN.parseQuery();
+			if (q.q) {
+				var arr = q.q.replace(/[,-]+/g, ' ').split(' ');
+				item = common.items.findItem(function(item) {
+					var is = true;
+					for (var i = 0; i < arr.length; i++) {
+						if (item.url.indexOf(arr[i]) === -1) {
+							is = false;
+							break;
+						}
+					}
+					return is;
+				});
+			}
+		}
+
+		if (item && item.$pointer) {
+			SETTER('tree', 'expand', item.$pointer);
+			SETTER('tree', 'select', item.$pointer);
+		}
+
+	}, 200);
+
 });
 
 // setTimeout because I expect that the homepage is loaded first (this is a prevention for double reading)

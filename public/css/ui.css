@@ -105,7 +105,7 @@ input[type="text"]:disabled, input[type="password"]:disabled, select:disabled { 
 .markdown p code, .markdown li code, .markdown blockquote code, .markdown h1 code, .markdown h2 code, .markdown h3 code, .markdown h4 code, .markdown td code { background-color: #E0E0E0; padding: 1px 4px 2px; border-radius: 3px; font-size: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 .markdown pre { padding: 0; border-radius: 4px; margin: 20px 0; width: 100%; }
 .markdown pre code { padding: 15px; font-size: 14px; line-height: 18px; overflow-scrolling: touch; }
-.markdown table { width: 100%; margin: 0 5px; }
+.markdown table { width: 100%; margin: 0 5px 20px; }
 .markdown ul { margin: 0 0 20px 0; padding: 0 0 0 2em; }
 .markdown img { max-width: 100%; }
 .markdown th { background-color: #F8F8F8; }
