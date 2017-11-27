@@ -698,20 +698,24 @@ COMPONENT('validation', function(self, config) {
 	};
 });
 
-COMPONENT('codemirror', 'linenumbers:false', function(self, config) {
+COMPONENT('codemirror', 'linenumbers:false;required:false', function(self, config) {
 
-	var skipA = false;
-	var skipB = false;
+	var editor = null;
 
-	self.editor = null;
 	self.getter = null;
+	self.bindvisible();
 
 	self.reload = function() {
-		self.editor.refresh();
+		editor.refresh();
 	};
 
 	self.validate = function(value) {
-		return config.disabled || !config.required ? true : value && value.length > 0;
+		return (config.disabled || !config.required ? true : value && value.length > 0) === true;
+	};
+
+	self.insert = function(value) {
+		editor.replaceSelection(value);
+		self.change(true);
 	};
 
 	self.configure = function(key, value, init) {
@@ -721,8 +725,8 @@ COMPONENT('codemirror', 'linenumbers:false', function(self, config) {
 		switch (key) {
 			case 'disabled':
 				self.tclass('ui-disabled', value);
-				self.editor.readOnly = value;
-				self.editor.refresh();
+				editor.readOnly = value;
+				editor.refresh();
 				break;
 			case 'required':
 				self.find('.ui-codemirror-label').tclass('ui-codemirror-label-required', value);
@@ -736,75 +740,71 @@ COMPONENT('codemirror', 'linenumbers:false', function(self, config) {
 	};
 
 	self.make = function() {
-
 		var content = config.label || self.html();
 		self.html((content ? '<div class="ui-codemirror-label' + (config.required ? ' ui-codemirror-label-required' : '') + '">' + (config.icon ? '<i class="fa fa-' + config.icon + '"></i> ' : '') + content + ':</div>' : '') + '<div class="ui-codemirror"></div>');
 		var container = self.find('.ui-codemirror');
 
-		self.editor = CodeMirror(container.get(0), { styleActiveLine: true, matchBrackets: true, lineWrapping: config.linewrapping, lineNumbers: config.linenumbers, mode: config.type || 'htmlmixed', indentUnit: 4 });
+		var options = {};
+		options.lineNumbers = config.linenumbers;
+		options.mode = config.type || 'htmlmixed';
+		options.indentUnit = 4;
+
+		if (config.type === 'markdown') {
+			options.styleActiveLine = true;
+			options.lineWrapping = true;
+			options.matchBrackets = true;
+		}
+
+		editor = CodeMirror(container.get(0), options);
+		self.editor = editor;
+
 		if (config.height !== 'auto') {
 			var is = typeof(config.height) === 'number';
-			self.editor.setSize('100%', is ? (config.height + 'px') : (config.height || '200px'));
+			editor.setSize('100%', is ? (config.height + 'px') : (config.height || '200px'));
 			!is && self.css('height', config.height);
 		}
 
 		if (config.disabled) {
 			self.aclass('ui-disabled');
-			self.editor.readOnly = true;
-			self.editor.refresh();
+			editor.readOnly = true;
+			editor.refresh();
 		}
 
-		self.editor.on('change', function(a, b) {
+		var can = {};
+		can['+input'] = can['+delete'] = can.undo = can.redo = can.paste = can.cut = can.clear = true;
 
-			if (config.disabled)
+		editor.on('change', function(a, b) {
+
+			if (config.disabled || !can[b.origin])
 				return;
-
-			var val = self.editor.getValue();
-			self.emit('change', val);
-
-			if (skipB && b.origin !== 'paste') {
-				skipB = false;
-				return;
-			}
 
 			setTimeout2(self.id, function() {
-				skipA = true;
-				self.reset(true);
-				self.dirty(false);
-				self.set(val);
+				var val = editor.getValue();
+				self.getter2 && self.getter2(val);
+				self.$dirty && self.change(true);
+				self.rewrite(val);
+				config.required && self.validate2();
 			}, 200);
 		});
-
-		skipB = true;
 	};
 
 	self.setter = function(value) {
 
-		if (skipA === true) {
-			skipA = false;
-			return;
-		}
-
-		skipB = true;
-		self.editor.setValue(value || '');
-		self.editor.refresh();
-		skipB = true;
-
-		CodeMirror.commands['selectAll'](self.editor);
-		skipB = true;
-		self.editor.setValue(self.editor.getValue());
-		skipB = true;
+		editor.setValue(value || '');
+		editor.refresh();
 
 		setTimeout(function() {
-			self.editor.refresh();
+			editor.refresh();
+			editor.scrollTo(0, 0);
+			editor.setCursor(0);
 		}, 200);
 
 		setTimeout(function() {
-			self.editor.refresh();
+			editor.refresh();
 		}, 1000);
 
 		setTimeout(function() {
-			self.editor.refresh();
+			editor.refresh();
 		}, 2000);
 	};
 
@@ -817,7 +817,7 @@ COMPONENT('codemirror', 'linenumbers:false', function(self, config) {
 		self.$oldstate = invalid;
 		self.find('.ui-codemirror').tclass('ui-codemirror-invalid', invalid);
 	};
-});
+}, ['//cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.min.css', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.min.js', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/javascript/javascript.min.js', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/htmlmixed/htmlmixed.min.js', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/xml/xml.min.js', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/css/css.min.js', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/markdown/markdown.min.js']);
 
 function refresh_markdown(read) {
 	var el = $('.markdown');

@@ -10,7 +10,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<meta name="robots" content="all,follow" />
 	<link rel="stylesheet" href="//cdn.totaljs.com/spa.min.css" />
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.24.2/codemirror.min.css" />
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
 	@{import('head', 'manager.css', 'favicon.ico')}
 </head>
@@ -110,12 +109,6 @@
 
 	<script src="//cdn.totaljs.com/spa.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/javascript/javascript.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/htmlmixed/htmlmixed.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/css/css.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/markdown/markdown.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
 
 	@{import('manager.js')}
@@ -358,10 +351,10 @@
 
 		FIND('codemirror', function(component) {
 
-			component.on('change', function(value) {
+			component.getter2 = function(value) {
 				common.change = true;
 				common.preview && preview(value);
-			});
+			};
 
 			component.editor.on('drop',function(editor, e) {
 
