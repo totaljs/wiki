@@ -52,7 +52,7 @@ ON('ready', function() {
 			SETTER('tree', 'select', item.$pointer);
 		}
 
-	}, 200);
+	}, 500);
 
 });
 
