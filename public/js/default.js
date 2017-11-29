@@ -25,7 +25,6 @@ ON('ready', function() {
 			location.hash = id;
 	});
 
-
 	setTimeout(function() {
 		var sel = NAV.url.substring(1, NAV.url.length - 1);
 		var item = common.items.findItem('url', sel);
@@ -45,6 +44,12 @@ ON('ready', function() {
 					return is;
 				});
 			}
+		}
+
+		if (item && item.children) {
+			var child = item.children[0];
+			if (child)
+				item = child;
 		}
 
 		if (item && item.$pointer) {
