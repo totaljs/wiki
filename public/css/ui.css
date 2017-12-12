@@ -14,6 +14,7 @@
 
 .ui-tree { background-color: white; height: 100%; overflow-y: auto; overflow-x: hidden; overflow-scrolling: touch; }
 .ui-tree .node {}
+.ui-tree a { color: black; text-decoration: none; }
 .ui-tree .children { display: none; }
 .ui-tree .item .fa { width: 16px; margin-right: 3px; }
 .ui-tree .item { cursor: pointer; padding: 6px 10px; font-size: 14px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #E0E0E0; }
