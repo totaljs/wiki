@@ -155,3 +155,8 @@ input[type="text"]:disabled, input[type="password"]:disabled, select:disabled { 
 .ui-autocomplete li span { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 .ui-autocomplete li span:first-child { float: left; width: 65%; }
 .ui-autocomplete li span:last-child { float: right; width: 30%; font-size: 11px; color: #A0A0A0; }
+
+.backtotop { visibility: hidden; position: fixed; right: 15px; bottom: 5px; transform: translate3d(55px,0,0); transition: transform 0.65s, visibility 0.65s cubic-bezier(0,0,0,1) /* we need to delay hiding of the element */; }
+.backtotop.active { visibility: visible; transform: translate3d(0,0,0); transition: transform 0.65s; }
+.backtotop a { color: #bbb; font-size: 30px; transition: color 0.8s; }
+.backtotop a:hover { color: #888; transition: color 0.8s; }
