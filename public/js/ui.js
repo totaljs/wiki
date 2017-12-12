@@ -5,12 +5,14 @@ COMPONENT('tree', 'selected:selected', function(self, config) {
 	var expanded = {};
 	var selindex = -1;
 
-	self.template = Tangular.compile('<div class="item{{ if children }} expand{{ fi }}" title="{{ name }}" data-index="{{ $pointer }}"><i class="fa {{ if children }}ui-tree-folder{{ else }}fa-file-o{{ fi }}"></i>{{ name }}</div>');
+	self.template = Tangular.compile('<div class="item{{ if children }} expand{{ fi }}" title="{{ name }}" data-index="{{ $pointer }}"><a href="/{{ url }}"><i class="fa {{ if children }}ui-tree-folder{{ else }}fa-file-o{{ fi }}"></i>{{ name }}</a></div>');
 	self.readonly();
 
 	self.make = function() {
 		self.aclass('ui-tree');
-		self.event('click', '.item', function() {
+		self.event('click', '.item', function(e) {
+			if(e.ctrlKey || e.metaKey && e.target.tagName === 'A') return;
+			e.preventDefault();
 			var el = $(this);
 			var index = +el.attr('data-index');
 			self.select(index);
