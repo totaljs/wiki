@@ -11,7 +11,8 @@ COMPONENT('tree', 'selected:selected', function(self, config) {
 	self.make = function() {
 		self.aclass('ui-tree');
 		self.event('click', '.item', function(e) {
-			if(e.ctrlKey || e.metaKey && e.target.tagName === 'A') return;
+			if (e.ctrlKey || e.metaKey && e.target.tagName === 'A')
+				return;
 			e.preventDefault();
 			var el = $(this);
 			var index = +el.attr('data-index');
