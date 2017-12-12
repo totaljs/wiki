@@ -1360,3 +1360,28 @@ COMPONENT('shortcuts', function(self) {
 		return self;
 	};
 });
+
+COMPONENT('backtotop', function(self) {
+	self.make = function() {
+		var height = 1000;
+		var window$ = $(window);
+		self.html('<a href="javascript:void(0)" ><i class="fa fa-arrow-circle-up"></i></a>');
+		self.aclass('backtotop');
+
+		self.event('click', function() {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		});
+		window$.resize(function() {
+			height = window$.innerHeight();
+		});
+		window$.scroll(function() {
+			var position = window$.scrollTop();
+			if (position > height) {
+				self.aclass('active');
+			} else {
+				self.rclass('active');
+			}
+		});
+	};
+});
