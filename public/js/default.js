@@ -6,6 +6,7 @@ var common = { hash: location.hash.substring(1) };
 // Helpers
 var firstcall = true;
 var clickcall = false;
+var firstshow = true;
 
 SETTER(true, 'loading', 'hide');
 
@@ -15,8 +16,6 @@ ON('ready', function() {
 	$(document).on('click', '.categorybutton', function() {
 		$('.categories').tclass('categoriesshow');
 	});
-
-	common.hash && refresh_scroll();
 
 	$(document).on('click', 'h1,h2,h3', function() {
 		var el = $(this);
@@ -57,6 +56,7 @@ ON('ready', function() {
 			SETTER('tree', 'select', item.$pointer);
 		}
 
+		common.hash && refresh_scroll();
 	}, 500);
 
 });
@@ -75,11 +75,13 @@ setTimeout(function() {
 
 	// Because of browser's navigation: back/next page
 	ON('location', function(url) {
+
 		// User clicked on class=".jrouting" link
 		if (clickcall) {
 			clickcall = false;
 			return;
 		}
+
 		var item = common.items.findItem('url', url.substring(1, url.length - 1));
 		if (item) {
 			SETTER('tree', 'select', item.$pointer);
@@ -176,6 +178,7 @@ refresh_pages();
 
 function treeclick(obj, group, expanded) {
 
+
 	if (firstcall) {
 		if (!obj.children) {
 			firstcall = false;
@@ -206,6 +209,15 @@ function treeclick(obj, group, expanded) {
 	}
 
 	$('.categories').rclass('categoriesshow');
+
+	if (firstshow) {
+		firstshow = false;
+		SETTER('loading', 'hide', 500);
+		refresh_navigation();
+		refresh_scroll();
+		return;
+	}
+
 	AJAX('GET ' + url, function(response) {
 		$('html,body').prop('scrollTop', 0);
 		document.title = obj.title;
