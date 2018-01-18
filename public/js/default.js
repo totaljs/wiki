@@ -43,6 +43,7 @@ ON('ready', function() {
 					return is;
 				});
 			}
+			firstshow = false;
 		}
 
 		if (item && item.children) {
