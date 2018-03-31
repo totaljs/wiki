@@ -28,5 +28,9 @@
 
 - open `/wiki/config` file and edit
 
+- url: <http://127.0.0.1:8000/$manager/>
+- user: `admin`
+- password: `admin`
+
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: license.txt
