@@ -21,7 +21,7 @@
 ## Installation
 
 - `$ cd wiki`
-- install `$ npm install total.js`
+- install `$ npm install`
 - run `$ node debug.js`
 
 ## Credentials
