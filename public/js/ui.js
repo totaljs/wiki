@@ -1,3 +1,5 @@
+DEF.baseurl = '@{#}';
+
 COMPONENT('tree', 'selected:selected', function(self, config) {
 
 	var cache = null;
@@ -832,7 +834,12 @@ function refresh_markdown(read) {
 			var el = $(this);
 			var href = el.attr('href');
 			href.substring(0, 1) !== '/' && el.attr('target', '_blank');
-			href === '#' && el.attr('href', '#' + el.html().toLowerCase().replace(/[^\w]+/g, '-'));
+			if (href === '#') {
+				var plus = '';
+				if (el.find('code').length)
+					plus = '-';
+				el.attr('href', '#' + plus + el.text().toLowerCase().replace(/[^\w]+/g, '-'));
+			}
 		});
 	}
 }

@@ -1,4 +1,4 @@
-const REG_LINKS = /"\@\d+[0-9a-z]+(#|")/g;
+const REG_LINKS = /"@\d+[0-9a-z]+(#|")/g;
 const REG_HREF = /href="\//g;
 const REG_TABLE = /<table/g;
 
