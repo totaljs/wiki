@@ -2,8 +2,7 @@ name                          : Wiki
 version                       : 1.2.0
 author                        : Peter Širka
 
-// A relative URL address into the eshop management
-manager-url                   : /$manager
+manager-url                   : /admin
 manager-cookie                : __manager
 
 // Super users in the form "name:password"

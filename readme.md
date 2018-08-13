@@ -2,7 +2,7 @@
 
 # Wiki
 
-- `v1.0.0` (works only with __Total.js +v2.8.0__)
+- `v1.2.0` (works only with __Total.js +v2.8.0__)
 - [__Live chat with professional support__](https://messenger.totaljs.com)
 - [__HelpDesk with professional support__](https://helpdesk.totaljs.com)
 - [Live preview](https://wiki.totaljs.com)
@@ -28,7 +28,7 @@
 
 - open `/wiki/config` file and edit
 
-- url: <http://127.0.0.1:8000/$manager/>
+- url: <http://127.0.0.1:8000/admin/>
 - user: `admin`
 - password: `admin`
 
