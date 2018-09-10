@@ -3,24 +3,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Wiki Editor v@{config.version}</title>
+	<title>@{config.name} v@{config.version}</title>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=10" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="#A0A0A0" />
+	<meta name="apple-mobile-web-app-title" content="@{config.name}" />
 	<meta name="format-detection" content="telephone=no" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
 	<meta name="robots" content="all,follow" />
-	@{head}
-	<link rel="stylesheet" href="//cdn.totaljs.com/spa.min.css" />
-	<script src="//cdn.totaljs.com/spa.min.js"></script>
+	<link rel="apple-touch-icon" href="/icon.png" />
+	<link rel="stylesheet" href="//cdn.componentator.com/spa.min@16.css" />
+	<script src="//cdn.componentator.com/spa.min@16.js"></script>
 	<style type="text/css">
 		/*auto*/
 		html,body { overflow: hidden; height: 100%; }
-		body { background-color: #E6E9ED; }
-		.panel { max-width: 280px; width: 100%; position: absolute; left: 50%; top: 50%; margin: -300px 0 0 -140px; background-color: white; box-shadow: 0 5px 10px rgba(0,0,0,0.1); border-radius: 4px; transition: all 0.5s; transform: scale(1.5); }
+		body { background-color: white; }
+		.panel { max-width: 320px; width: 100%; position: absolute; left: 50%; top: 50%; margin: -300px 0 0 -140px; background-color: white; border: 1px solid #E0E0E0; border-radius: 3px; transition: all 0.5s; transform: scale(1.5); }
 		.padding { padding: 20px; }
 		.panelshow { transform: scale(1); }
 
-		h1 { color: black; margin: 0; padding: 30px 0 20px; font-family: Arial; text-align: center; background-color: #F8F8F8; background: repeating-linear-gradient(45deg,#F0F0F0,#F0F0F0 10px,#F9F9F9 10px,#F9F9F9 20px); border-radius: 4px 4px 0 0; }
+		h1 { color: black; margin: 0; padding: 20px 0 15px; font-family: Arial; text-align: center; border-bottom: 1px solid #E0E0E0; border-radius: 4px 4px 0 0; font-size: 18px; }
 		h1 .fa { margin-right: 10px; }
 		input:-ms-input-placeholder, input:-webkit-input-placeholder, input:-moz-input-placeholder { color: silver; }
 		input[type="text"]:disabled, input[type="password"]:disabled, select:disabled { background-color: #F0F0F0; cursor: not-allowed; color: silver; }
@@ -45,14 +48,14 @@
 		.hidden { display: none; }
 		.m { margin-bottom: 15px; }
 
-		button { background-color: #4285F4; border: 0; color: white; cursor: pointer; outline: 0; width: 100%; border-radius: 4px; height: 50px; text-transform: uppercase; }
+		button { background-color: #4285F4; border: 0; color: white; cursor: pointer; outline: 0; width: 100%; border-radius: 4px; height: 50px; text-transform: uppercase; font-weight: bold; }
 		button:hover { box-shadow: 0 2px 5px rgba(0,0,0,0.1); opacity: 0.9; }
 		button:disabled { background-color: #F0F0F0; color: silver; cursor: not-allowed; box-shadow: none; opacity: 1; }
 		button .fa { margin-right: 5px; }
 		footer { font-size: 11px; text-align: center; color: #A0A0A0; margin: 20px 0 0 0; }
 
 		@media(max-width: 768px) {
-			.panel { margin-top: -200px; }
+			.panel { margin: 20px; left: 0; position: relative; top: 0; width: auto; max-width: 1000px; }
 		}
 
 	</style>
@@ -60,21 +63,20 @@
 <body>
 
 	<div class="panel">
-		<h1><i class="fa fa-lock"></i>@{config.name}</h1>
+		<h1><i class="fa fa-lock"></i>@{'%name'}</h1>
 		<div class="padding">
-			<div class="m" data-jc="textbox" data-jc-path="form.name" data-jc-config="icon2:user;required:true;autofocus:true;autofill:true">@(Login name)</div>
-			<div class="m" data-jc="textbox" data-jc-path="form.password" data-jc-config="icon2:lock;required:true;type:password;autofill:true">@(Password)</div>
-			<div data-jc="error" data-jc-path="form.response"></div>
-			<div data-jc="validation" data-jc-path="form">
-				<button name="submit" disabled="disabled"><i class="fa fa-lock"></i>Login</button>
+			<div class="m" data-jc="textbox__form.name__icon2:user;required:true;autofocus:true;autofill:true">@(Login name)</div>
+			<div class="m" data-jc="textbox__form.password__icon2:lock;required:true;type:password;autofill:true">@(Password)</div>
+			<div data-jc="error__form.response"></div>
+			<div data-jc="validation__form">
+				<button name="submit" disabled="disabled"><i class="fa fa-lock"></i>@(Login)</button>
 			</div>
 			<footer>
-				<div>All rights reserved &copy; 2017</div>
+				<div>All rights reserved &copy; 2018</div>
 				<a href="https://www.totaljs.com" target="_blank">www.totaljs.com</a>
 			</footer>
 		</div>
 	</div>
-
 
 	<script>
 	COMPONENT('validation', function(self, config) {
@@ -103,7 +105,7 @@
 		};
 
 		self.state = function() {
-			var disabled = MAIN.disabled(path);
+			var disabled = DISABLED(path);
 			if (!disabled && config.if)
 				disabled = !EVALUATE(self.path, config.if);
 			elements.prop('disabled', disabled);
@@ -222,8 +224,8 @@
 				self.setter2 = function(value) {
 					if (self.$stateremoved && !value)
 						return;
-					self.$stateremoved = value ? false : true;
-					self.find('.ui-textbox-control-icon').tclass('fa-times', value ? true : false).tclass('fa-search', value ? false : true);
+					self.$stateremoved = !value;
+					self.find('.ui-textbox-control-icon').tclass('fa-times', !!value).tclass('fa-search', !value);
 				};
 			}
 
@@ -360,10 +362,9 @@
 	});
 
 	$(document).on('click', 'button', function() {
-		if (!MAIN.can('form.*') || BLOCKED('managerlogin', 2000))
+		if (!CAN('form.*') || BLOCKED('adminlogin', 2000))
 			return;
-		RESET('form.*');
-		AJAX('POST @{'%manager-url'}/login/', form, function(response) {
+		AJAX('POST @{'%manager-url'}/login/', GETR('form'), function(response) {
 			SET('form.response', response);
 			response.success && location.reload(true);
 		});
