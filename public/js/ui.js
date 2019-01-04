@@ -9,6 +9,7 @@ COMPONENT('tree', 'selected:selected', function(self, config) {
 
 	self.template = Tangular.compile('<div class="item{{ if children }} expand{{ fi }}" title="{{ name }}" data-index="{{ $pointer }}"><a href="/{{ url }}"><i class="far {{ if children }}ui-tree-folder{{ else }}fa-file-alt{{ fi }}"></i>{{ name }}</a></div>');
 	self.readonly();
+	self.nocompile();
 
 	self.make = function() {
 		self.aclass('ui-tree');
@@ -191,133 +192,6 @@ COMPONENT('exec', function(self, config) {
 	};
 });
 
-COMPONENT('binder', function(self) {
-
-	var keys, keys_unique;
-
-	self.readonly();
-	self.blind();
-
-	self.make = function() {
-		self.watch('*', self.autobind);
-		self.scan();
-
-		self.on('component', function() {
-			setTimeout2(self.id, self.scan, 200);
-		});
-
-		self.on('destroy', function() {
-			setTimeout2(self.id, self.scan, 200);
-		});
-	};
-
-	self.autobind = function(path) {
-		var mapper = keys[path];
-		var template = {};
-		mapper && mapper.forEach(function(item) {
-			var value = self.get(item.path);
-			var element = item.selector ? item.element.find(item.selector) : item.element;
-			template.value = value;
-			item.classes && classes(element, item.classes(value));
-			item.visible && element.tclass('hidden', item.visible(value) ? false : true);
-			item.html && element.html(item.Ta ? item.html(template) : item.html(value));
-			item.disable && element.prop('disabled', item.disable(value));
-		});
-	};
-
-	function classes(element, val) {
-		var add = '';
-		var rem = '';
-		val.split(' ').forEach(function(item) {
-			switch (item.substring(0, 1)) {
-				case '+':
-					add += (add ? ' ' : '') + item.substring(1);
-					break;
-				case '-':
-					rem += (rem ? ' ' : '') + item.substring(1);
-					break;
-				default:
-					add += (add ? ' ' : '') + item;
-					break;
-			}
-		});
-		rem && element.rclass(rem);
-		add && element.aclass(add);
-	}
-
-	function decode(val) {
-		return val.replace(/\&\#39;/g, '\'');
-	}
-
-	self.prepare = function(code) {
-		return code.indexOf('=>') === -1 ? FN('value=>' + decode(code)) : FN(decode(code));
-	};
-
-	self.scan = function() {
-		keys = {};
-		keys_unique = {};
-		self.find('[data-b]').each(function() {
-
-			var el = $(this);
-			var path = el.attr('data-b');
-			var arr = path.split('.');
-			var p = '';
-
-			var classes = el.attr('data-b-class');
-			var html = el.attr('data-b-html');
-			var visible = el.attr('data-b-visible');
-			var disable = el.attr('data-b-disable');
-			var selector = el.attr('data-b-selector');
-			var obj = el.data('data-b');
-
-			keys_unique[path] = true;
-
-			if (!obj) {
-				obj = {};
-				obj.path = path;
-				obj.element = el;
-				obj.classes = classes ? self.prepare(classes) : undefined;
-				obj.visible = visible ? self.prepare(visible) : undefined;
-				obj.disable = disable ? self.prepare(disable) : undefined;
-				obj.selector = selector ? selector : null;
-
-				if (el.attr('data-b-template') === 'true') {
-					var tmp = el.find('script[type="text/html"]');
-					var str = '';
-
-					if (tmp.length)
-						str = tmp.html();
-					else
-						str = el.html();
-
-					if (str.indexOf('{{') !== -1) {
-						obj.html = Tangular.compile(str);
-						obj.Ta = true;
-						tmp.length && tmp.remove();
-					}
-				} else
-					obj.html = html ? self.prepare(html) : undefined;
-
-				el.data('data-b', obj);
-			}
-
-			for (var i = 0, length = arr.length; i < length; i++) {
-				p += (p ? '.' : '') + arr[i];
-				if (keys[p])
-					keys[p].push(obj);
-				else
-					keys[p] = [obj];
-			}
-		});
-
-		Object.keys(keys_unique).forEach(function(key) {
-			self.autobind(key, self.get(key));
-		});
-
-		return self;
-	};
-});
-
 COMPONENT('inlineform', 'icon:circle-o', function(self, config) {
 
 	var W = window;
@@ -443,6 +317,8 @@ COMPONENT('inlineform', 'icon:circle-o', function(self, config) {
 COMPONENT('textbox', function(self, config) {
 
 	var input, container, content = null;
+
+	self.nocompile();
 
 	self.validate = function(value) {
 
@@ -694,7 +570,6 @@ COMPONENT('codemirror', 'linenumbers:false;required:false', function(self, confi
 
 	var editor = null;
 	var fn = {};
-	var markers = {};
 	var cache_lines = [];
 	var skip = false;
 
@@ -944,6 +819,8 @@ COMPONENT('codemirror', 'linenumbers:false;required:false', function(self, confi
 function refresh_markdown(read) {
 	var el = $('.markdown');
 	if (el.length) {
+		markdown_linechart(el.find('.lang-linechart'));
+		markdown_barchart(el.find('.lang-barchart'));
 		markdown_video(el.find('.lang-video'));
 		markdown_iframe(el.find('.lang-iframe'));
 		el.find('pre code').each(FN('(i,b) => hljs.highlightBlock(b)'));
@@ -971,6 +848,84 @@ function highlight(el) {
 	});
 }
 
+function markdown_barchart(selector) {
+	selector.each(function() {
+
+		var el = $(this);
+		var arr = el.html().split('\n').trim();
+		var series = [];
+		var categories = [];
+		var y = '';
+
+		for (var i = 0; i < arr.length; i++) {
+			var line = arr[i].split('|').trim();
+			for (var j = 1; j < line.length; j++) {
+				if (i === 0)
+					series.push({ name: line[j], data: [] });
+				else
+					series[j - 1].data.push(+line[j]);
+			}
+			if (i)
+				categories.push(line[0]);
+			else
+				y = line[0];
+		}
+
+		var options = {
+			chart: {
+				height: 300,
+				type: 'bar',
+			},
+			yaxis: { title: { text: y }},
+			series: series,
+			xaxis: { categories: categories, },
+			fill: { opacity: 1 },
+		};
+
+		var chart = new ApexCharts($(this).parent().empty()[0], options);
+		chart.render();
+	});
+}
+
+function markdown_linechart(selector) {
+	selector.each(function() {
+
+		var el = $(this);
+		var arr = el.html().split('\n').trim();
+		var series = [];
+		var categories = [];
+		var y = '';
+
+		for (var i = 0; i < arr.length; i++) {
+			var line = arr[i].split('|').trim();
+			for (var j = 1; j < line.length; j++) {
+				if (i === 0)
+					series.push({ name: line[j], data: [] });
+				else
+					series[j - 1].data.push(+line[j]);
+			}
+			if (i)
+				categories.push(line[0]);
+			else
+				y = line[0];
+		}
+
+		var options = {
+			chart: {
+				height: 300,
+				type: 'line',
+			},
+			yaxis: { title: { text: y }},
+			series: series,
+			xaxis: { categories: categories, },
+			fill: { opacity: 1 },
+		};
+
+		var chart = new ApexCharts($(this).parent().empty()[0], options);
+		chart.render();
+	});
+}
+
 function markdown_video(selector) {
 	selector.each(function() {
 		var el = $(this);
@@ -986,7 +941,7 @@ function markdown_video(selector) {
 function markdown_iframe(selector) {
 	selector.each(function() {
 		var el = $(this);
-		el.parent().replaceWith('<div class="iframe">' + el.html().replace(/\&lt\;/g, '<').replace(/\&gt\;/g, '>') + '</div>');
+		el.parent().replaceWith('<div class="iframe">' + el.html().replace(/&lt;/g, '<').replace(/&gt;/g, '>') + '</div>');
 	});
 }
 
@@ -996,6 +951,7 @@ COMPONENT('confirm', function(self) {
 
 	self.readonly();
 	self.singleton();
+	self.nocompile();
 
 	self.make = function() {
 
@@ -1064,6 +1020,8 @@ COMPONENT('nosqlcounter', 'count:0', function(self, config) {
 	var months = MONTHS;
 
 	self.readonly();
+	self.nocompile();
+
 	self.make = function() {
 		self.toggle('ui-nosqlcounter hidden', true);
 	};
@@ -1209,6 +1167,7 @@ COMPONENT('autocomplete', 'height:200', function(self, config) {
 	self.template = Tangular.compile('<li{{ if index === 0 }} class="selected"{{ fi }} data-index="{{ index }}"><span>{{ name }}</span><span>{{ type }}</span></li>');
 	self.readonly();
 	self.singleton();
+	self.nocompile();
 
 	self.make = function() {
 		self.aclass('ui-autocomplete-container hidden');
@@ -1415,7 +1374,7 @@ COMPONENT('shortcuts', function(self) {
 		});
 	};
 
-	self.register = function(shortcut, callback, prevent) {
+	self.register = function(shortcut, callback) {
 		var builder = [];
 		shortcut.split('+').trim().forEach(function(item) {
 			var lower = item.toLowerCase();
@@ -1499,6 +1458,7 @@ COMPONENT('backtotop', function(self) {
 	var visible = false;
 
 	self.singleton();
+	self.nocompile();
 
 	self.make = function() {
 

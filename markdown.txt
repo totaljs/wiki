@@ -112,3 +112,22 @@ With alignment:
 | Value            | Value              |
 | Value            | Value              |
 | Value            | Value              |
+
+|--------------------------------------------|
+| Charts                                     |
+|--------------------------------------------|
+
+```barchart
+Year   |   Apples   |  Bananas  |  Oranges
+2009   |   80       |  40       |  70
+2010   |   40       |  50       |  300
+2011   |   40       |  50       |  300
+```
+
+```linechart
+Year   |   Apples   |  Bananas  |  Oranges
+2009   |   80       |  40       |  70
+2010   |   40       |  50       |  300
+2011   |   40       |  50       |  300
+```
+

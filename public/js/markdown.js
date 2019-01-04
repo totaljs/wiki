@@ -145,7 +145,7 @@ function markdown(text) {
 
 				closeul();
 				iscode = true;
-				builder.push('<pre><code class="' + lines[i].substring(3) + '">');
+				builder.push('<pre><code class="lang-' + lines[i].substring(3) + '">');
 				prev = 'code';
 
 				continue;
