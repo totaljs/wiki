@@ -1,5 +1,5 @@
 exports.install = function() {
-	var url = F.config['manager-url'];
+	var url = CONF['manager-url'];
 
 	GROUP(['authorize'], function() {
 		ROUTE(url + '/', '~manager');
@@ -18,31 +18,28 @@ exports.install = function() {
 function login() {
 	var self = this;
 
-	if (F.global.protection[self.ip] > 3) {
+	if (G.protection[self.ip] > 3) {
 		self.invalid().push('error-credentials');
 		return;
 	}
 
 	var login = self.body.name + ':' + self.body.password;
-
-
-	if (F.config['manager-superadmin'].indexOf(login) === -1) {
+	if (CONF['manager-superadmin'].indexOf(login) === -1) {
 		self.invalid().push('error-credentials');
-		if (F.global.protection[self.ip])
-			F.global.protection[self.ip]++;
+		if (G.protection[self.ip])
+			G.protection[self.ip]++;
 		else
-			F.global.protection[self.ip] = 1;
-		return;
+			G.protection[self.ip] = 1;
+	} else {
+		delete G.protection[self.ip];
+		self.cookie(CONF['manager-cookie'], login.hash(), '7 days');
+		self.json(SUCCESS(true));
 	}
-
-	delete F.global.protection[self.ip];
-	self.cookie(F.config['manager-cookie'], login.hash(), '7 days');
-	self.json(SUCCESS(true));
 }
 
 // Logoff
 function redirect_logoff() {
 	var self = this;
-	self.cookie(F.config['manager-cookie'], '', '-1 days');
-	self.redirect(F.config['manager-url']);
+	self.cookie(CONF['manager-cookie'], '', '-1 days');
+	self.redirect(CONF['manager-url']);
 }

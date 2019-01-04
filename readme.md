@@ -2,7 +2,7 @@
 
 # Wiki
 
-- `v1.2.0` (works only with __Total.js +v2.8.0__)
+- `v2.0.0` (works only with __Total.js +v3.1.0__)
 - [__Live chat with professional support__](https://messenger.totaljs.com)
 - [__HelpDesk with professional support__](https://helpdesk.totaljs.com)
 - [Live preview](https://wiki.totaljs.com)

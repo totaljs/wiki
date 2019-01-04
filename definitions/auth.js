@@ -1,18 +1,18 @@
-F.global.protection = {};
+G.protection = {};
 
 // Clears blocked IP addreses
-F.on('service', function(interval) {
+ON('service', function(interval) {
 	if (interval % 30 === 0)
-		F.global.protection = {};
+		G.protection = {};
 });
 
-F.onAuthorize = function(req, res, flags, next) {
+AUTH(function(req, res, flags, next) {
 
 	var cookie = req.cookie(F.config['manager-cookie']);
 	if (!cookie)
 		return next(false);
 
-	if (F.global.protection[req.ip] > 3)
+	if (G.protection[req.ip] > 3)
 		return next(false);
 
 	cookie = +cookie;
@@ -22,10 +22,10 @@ F.onAuthorize = function(req, res, flags, next) {
 			return next(true, users[i].split(':')[0]);
 	}
 
-	if (F.global.protection[req.ip])
-		F.global.protection[req.ip]++;
+	if (G.protection[req.ip])
+		G.protection[req.ip]++;
 	else
-		F.global.protection[req.ip] = 1;
+		G.protection[req.ip] = 1;
 
 	next(false);
-};
+});

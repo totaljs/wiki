@@ -2,32 +2,20 @@ const Fs = require('fs');
 
 exports.install = function() {
 
-	ROUTE('/api/ping/', json_ping);
-	ROUTE('/api/pages/', ['*Page --> query']);
+	ROUTE('GET  /api/pages/                    *Page --> @query');
 
 	GROUP(['authorize'], function() {
-		ROUTE('/api/pages/',         ['*Page --> save', 'post'], 512);
-		ROUTE('/api/pages/{id}/',    ['*Page --> read']);
-		ROUTE('/api/stats/{id}/',    ['*Page --> stats']);
-		ROUTE('/api/pages/{id}/',    ['*Page --> delete', 'delete']);
-		ROUTE('/api/pages/preview/', preview, ['*Preview', 'post'], 512);
-		ROUTE('/api/upload/',        upload_markdown, ['post', 'upload'], 3084); // 3 MB
-		ROUTE('/api/upload/clear/',  upload_clear);
+
+		ROUTE('POST     /api/pages/            *Page --> @save', 512);
+		ROUTE('GET      /api/pages/{id}/       *Page --> @read');
+		ROUTE('GET      /api/stats/{id}/       *Page --> @stats');
+		ROUTE('DELETE   /api/pages/{id}/       *Page --> @remove');
+
+		// Files
+		ROUTE('POST     /api/upload/',         upload_markdown, ['upload'], 3084); // 3 MB
+		ROUTE('GET      /api/upload/clear/',   upload_clear);
 	});
 };
-
-// ==========================================================================
-// COMMON
-// ==========================================================================
-
-function json_ping() {
-	var self = this;
-	self.plain('null');
-}
-
-function preview() {
-	this.content((this.body.body || '').markdown(), 'text/html');
-}
 
 function upload_markdown() {
 

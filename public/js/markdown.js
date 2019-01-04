@@ -1,5 +1,5 @@
 function markdown(text) {
-	return text.markdown().replace(/\t/g, '    ');
+	return (text || '').markdown().replace(/\t/g, '    ');
 }
 
 /*! Markdown | (c) 2019 Peter Sirka | www.petersirka.com */

@@ -37,7 +37,7 @@ NEWSCHEMA('Page').make(function(schema) {
 			// Removes documents
 			db.remove().in('id', keys).callback(function() {
 				refresh();
-				$.callback(SUCCESS(true));
+				$.success();
 			}).log('remove page ' + keys.join(', '), user).backup(user);
 
 			// Removes counter
@@ -69,7 +69,7 @@ NEWSCHEMA('Page').make(function(schema) {
 		}
 
 		var done = function() {
-			$.callback(SUCCESS(true));
+			$.success();
 			refresh();
 		};
 

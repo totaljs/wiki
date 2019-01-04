@@ -1,6 +1,0 @@
-save       : save (response)
-query      : query (response)
-read       : read (response)
-delete     : remove (response)
-exec       : workflow:'exec' (response)
-stats      : workflow:'stats' (response)
