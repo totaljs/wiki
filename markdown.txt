@@ -1,0 +1,114 @@
+|--------------------------------------------|
+| HEADERS                                    |
+|--------------------------------------------|
+
+# Header 1
+
+## Header 2
+
+### Header 3
+
+#### Header 4
+
+##### Header 5
+
+|--------------------------------------------|
+| Inline formats                             |
+|--------------------------------------------|
+
+Lorem ipsum dolor sit _bold_
+Lorem ipsum dolor sit __strong__
+Lorem ipsum dolor sit *italic*
+Lorem ipsum dolor sit **em**
+Lorem ipsum dolor sit ~~strike~~
+Lorem ipsum dolor sit `code`
+Lorem ipsum dolor sit <https://link>
+Lorem ipsum dolor sit [Text](https://link)
+Lorem ipsum dolor sit ![Responsive block Image](https://link_to_image)
+Lorem ipsum dolor sit ![+Inline Image](https://link_to_image)
+Lorem ipsum dolor sit renders :home: icon, globe :globe: icon
+
+|--------------------------------------------|
+| Blockquote                                 |
+|--------------------------------------------|
+
+> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, libero!
+
+|--------------------------------------------|
+| Lines                                      |
+|--------------------------------------------|
+
+Line - type 1:
+
+---
+
+or Line - type 2:
+
+***
+
+|--------------------------------------------|
+| Lists                                      |
+|--------------------------------------------|
+
+- unordered list item 1
+- unordered list item 2
+- unordered list item 3
+	- nested unordered list item 1
+	- nested unordered list item 2
+	- nested unordered list item 3
+
+With Checkboxes:
+
+- [x] checked unordered list item
+- [x] checked unordered list item
+- [ ] unchecked unordered list item
+
+a. ordered
+a. ordered
+a. ordered
+
+A. ordered
+A. ordered
+A. ordered
+
+1. ordered
+1. ordered
+1. ordered
+
+i. ordered
+i. ordered
+i. ordered
+
+I. ordered
+I. ordered
+I. ordered
+
+|--------------------------------------------|
+| Code                                       |
+|--------------------------------------------|
+
+```javascript
+alert('OK');
+```
+
+```html
+<h1>Hello Markdown</h1>
+```
+
+|--------------------------------------------|
+| Tables                                     |
+|--------------------------------------------|
+
+| Header           | Header             |
+|------------------|--------------------|
+| Value            | Value              |
+| Value            | Value              |
+| Value            | Value              |
+
+With alignment:
+
+| Align center     | Align right        |
+|:----------------:|-------------------:|
+| Value            | Value              |
+| Value            | Value              |
+| Value            | Value              |

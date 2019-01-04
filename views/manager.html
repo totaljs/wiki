@@ -9,7 +9,6 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<meta name="robots" content="all,follow" />
-	<link rel="stylesheet" href="//cdn.componentator.com/spa.min@16.css" />
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
 	@{import('head', 'manager.css', 'favicon.ico')}
 </head>
@@ -28,7 +27,7 @@
 				<button class="exec" data-exec="logoff" title="@(Sign out)"><i class="fa fa-power-off"></i></button>
 			</nav>
 		</div>
-		<div class="pbody hidden" data-b="common.state" data-b-visible="value === 0">
+		<div class="pbody hidden" data-bind="common.state__show:value === 0">
 			<nav>
 				<button class="exec btn-centered" data-exec="sav_document" title="@(Save)"><i class="fa fa-floppy-o"></i></button>
 				<button class="exec btn-centered" data-exec="upd_document" title="@(Page setting)"><i class="fa fa-hashtag"></i></button>
@@ -37,66 +36,66 @@
 			<nav>
 				<button class="exec btn-centered" data-exec="add_document" title="@(Add page)"><i class="fa fa-plus"></i></button>
 			</nav>
-			<div class="meta">@(ID:) <span data-b="current.id" data-b-html="value" class="b"></span></div>
+			<div class="meta">@(ID:) <span data-bind="current.id__html" class="b"></span></div>
 		</div>
-		<div class="ppreview hidden" data-b="common.state" data-b-visible="value === 0">
+		<div class="ppreview hidden" data-bind="common.state__show:value === 0">
 			<nav>
-				<button class="exec" data-exec="togglepreview" title="@(Toggle preview)" data-b="common.preview" data-b-class="value ? '+selected' : '-selected'"><i class="fa fa-eye"></i></button>
+				<button class="exec" data-exec="togglepreview" title="@(Toggle preview)" data-bind="common.preview__.selected"><i class="fa fa-eye"></i></button>
 			</nav>
-			<div data-jc="nosqlcounter" data-jc-path="stats" style="height:30px;width:250px"></div>
+			<div data-jc="nosqlcounter__stats" style="height:30px;width:250px"></div>
 		</div>
 	</header>
 
-	<div class="content" data-b="common.preview" data-b-class="value ? '+showpreview' : '-showpreview'">
+	<div class="content" data-bind="common.preview__.showpreview">
 
 		<section class="tree">
-			<div data-jc="tree" data-jc-path="manager.pages" data-jc-config="exec:treeclick"></div>
+			<div data-jc="tree__manager.pages__exec:treeclick"></div>
 		</section>
 
 		<section class="body">
-			<div class="controls" data-b="common.state" data-b-visible="n => n ? true : false">
+			<div class="controls" data-bind="common.state__show">
 				<table>
 					<tr>
 						<td>
-							<button class="hidden exec btn-centered" data-b="common.state" data-b-visible="value === 2" data-exec="add_document">@(Add document)</button>
-							<button class="hidden exec btn-centered" data-b="common.state" data-b-visible="value === 1 || value === 2" data-exec="add_section">@(Add section)</button>
-							<button class="hidden exec" data-b="common.state" data-b-visible="value === 2" data-exec="rem_section">@(Remove)</button>
+							<button class="hidden exec btn-centered" data-bind="common.state__show:value===2" data-exec="add_document">@(Add document)</button>
+							<button class="hidden exec btn-centered" data-bind="common.state__show:value === 1 || value === 2" data-exec="add_section">@(Add section)</button>
+							<button class="hidden exec" data-bind="common.state__show:value === 2" data-exec="rem_section">@(Remove)</button>
 						</td>
 					</tr>
 				</table>
 			</div>
-			<div class="editor">
-				<div data-jc="codemirror" data-jc-path="current.body" data-jc-config="height:100%;type:markdown;linewrapping:true"></div>
+			<div class="editor" data-bind="common.state__show:value === 0">
+				<div data-jc="codemirror__current.body__height:100%;type:markdown;linewrapping:true"></div>
 			</div>
 			<div class="preview markdown" id="preview"></div>
 		</section>
 	</div>
 
-	<div data-jc="inlineform" data-jc-config="width:250;title:@(New section);submit:sub_section;enter:true" class="hidden" data-jc-id="newproject">
+	<div data-jc="inlineform__null__width:250;title:@(New section);submit:sub_section;enter:true" class="hidden" data-jc-id="newproject">
 		<div class="padding">
-			<div data-jc="textbox" data-jc-path="tree.name" data-jc-config="required:true;placeholder:@(Type a name)" data-jc-value="''">@(Section name)</div>
+			<div data-jc="textbox__tree.name__required:true;placeholder:@(Type a name)__''">@(Section name)</div>
 		</div>
-		<div class="ui-inlineform-buttons" data-jc="validation" data-jc-path="tree" data-jc-config="selector:.submit">
-			<button name="submit" class="submit">@(SUBMIT)</button>
+		<div class="ui-inlineform-buttons" data-jc="validation__tree__selector:.submit">
+			<button name="submit" class="submit" disabled>@(SUBMIT)</button>
 			<button name="cancel">@(Cancel)</button>
 		</div>
 	</div>
 
-	<div data-jc="inlineform" data-jc-config="width:250;title:@(New document);submit:sub_document;enter:true" class="hidden" data-jc-id="newdocument">
+	<div data-jc="inlineform__null__width:250;title:@(New document);submit:sub_document;enter:true" class="hidden" data-jc-id="newdocument">
 		<div class="padding">
-			<div data-jc="textbox" data-jc-path="meta.name" data-jc-config="required:true;placeholder:@(Type a name)" data-jc-value="''" class="m">@(Document name)</div>
-			<div data-jc="textbox" data-jc-path="meta.author" data-jc-config="required:true;placeholder:@(Your name)" data-jc-value="'@{user}'">@(Author)</div>
+			<div data-jc="textbox__meta.name__required:true;placeholder:@(Type a name)__''" class="m">@(Document name)</div>
+			<div data-jc="textbox__meta.author__required:true;placeholder:@(Your name)__'@{user}'">@(Author)</div>
 		</div>
-		<div class="ui-inlineform-buttons" data-jc="validation" data-jc-path="meta" data-jc-config="selector:.submit">
-			<button name="submit" class="submit">@(SUBMIT)</button>
+		<div class="ui-inlineform-buttons" data-jc="validation__meta__selector:.submit">
+			<button name="submit" class="submit" disabled>@(SUBMIT)</button>
 			<button name="cancel">@(Cancel)</button>
 		</div>
 	</div>
 
-	<div data-jc="inlineform" data-jc-config="width:300;title:@(Search documents)" class="hidden" data-jc-id="search">
+	<div data-jc="inlineform__null__width:300;title:@(Search documents)" class="hidden" data-jc-id="search">
 		<div class="padding">
-			<div data-jc="textbox" data-jc-path="common.search" data-jc-config="type:search;placeholder:@(What do you search?)" data-jc-value="''" class="m"></div>
-			<div data-jc="repeater" data-jc-path="common.searchresult" class="searchresults">
+			<div data-jc="textbox__common.search__type:search;placeholder:@(What do you search?)__''" class="m"></div>
+			<div data-jc="repeater__common.searchresult" class="searchresults">
 				<script type="text/html">
 					<div data-id="{{ $pointer }}" class="searchresult exec" data-exec="selectsearch"><i class="fa fa-file-o"></i>{{ title }}</div>
 				</script>
@@ -106,10 +105,6 @@
 			<button name="cancel" style="width:100%">@(Cancel)</button>
 		</div>
 	</div>
-
-	<script src="//cdn.componentator.com/spa.min@16.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
 
 	@{import('manager.js')}
 
@@ -286,7 +281,9 @@
 				return;
 
 			SETTER('loading', 'show');
-			current.body = FIND('codemirror').editor.getValue();
+			var editor = FIND('codemirror');
+			current.body = editor.editor.getValue();
+			editor.diffgutterclear();
 
 			AJAX('POST /api/pages/', current, function() {
 

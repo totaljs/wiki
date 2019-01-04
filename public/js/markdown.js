@@ -1,11 +1,12 @@
 function markdown(text) {
-	return text.markdown();
+	return text.markdown().replace(/\t/g, '    ');
 }
 
 /*! Markdown | (c) 2019 Peter Sirka | www.petersirka.com */
 (function Markdown() {
 
 	var links = /(!)?\[.*?\]\(.*?\)/g;
+	var links2 = /&lt;(https|http)+:\/\/.*?&gt;/g;
 	var imagelinks = /\[!\[.*?\]\(.*?\)\]\(.*?\)/g;
 	var format = /__.*?__|_.*?_|\*\*.*?\*\*|\*.*?\*|~~.*?~~|~.*?~/g;
 	var ordered = /^([a-z|0-9]{1,2}\.\s)|-\s/i;
@@ -16,6 +17,7 @@ function markdown(text) {
 	var regid = /[^\w]+/g;
 	var regdash = /-{2,}/g;
 	var regtags = /<\/?[^>]+(>|$)/g;
+	var regicons = /(^|[^\w]):[a-z-]+:([^\w]|$)/g;
 
 	var encode = function(val) {
 		return '&' + (val === '<' ? 'lt' : 'gt') + ';';
@@ -52,11 +54,25 @@ function markdown(text) {
 		var img = value.charAt(0) === '!';
 		var text = value.substring(img ? 2 : 1, end);
 		var link = value.substring(end + 2, value.length - 1);
-		return img ? ('<img src="' + link + '" alt="' + text + '" class="img-responsive" border="0" />') : ('<a href="' + link + '">' + text + '</a>');
+		var responsive = true;
+
+		if (img) {
+			if (text.charAt(0) === '+') {
+				responsive = false;
+				text = text.substring(1);
+			}
+		}
+
+		return img ? ('<img src="' + link + '" alt="' + text + '"' + (responsive ? ' class="img-responsive"' : '') + ' border="0" />') : ('<a href="' + link + '">' + text + '</a>');
+	}
+
+	function markdown_links2(value)	{
+		value = value.substring(4, value.length - 4);
+		return '<a href="' + value + '">' + value + '</a>';
 	}
 
 	function markdown_format(value) {
-		switch (value[0]) {
+		switch (value.charAt(0)) {
 			case '_':
 				return '<strong>' + value.replace(formatclean, '') + '</strong>';
 			case '*':
@@ -79,6 +95,24 @@ function markdown(text) {
 			end = '-';
 
 		return (beg + value.replace(regtags, '').toLowerCase().replace(regid, '-') + end).replace(regdash, '-');
+	}
+
+	function markdown_icon(value) {
+
+		var beg = -1;
+		var end = -1;
+
+		for (var i = 0; i < value.length; i++) {
+			var code = value.charCodeAt(i);
+			if (code === 58) {
+				if (beg === -1)
+					beg = i + 1;
+				else
+					end = i;
+			}
+		}
+
+		return value.substring(0, beg - 1) + '<i class="fa fa-' + value.substring(beg, end) + '"></i>' + value.substring(end + 1);
 	}
 
 	String.prototype.markdown = function() {
@@ -122,7 +156,7 @@ function markdown(text) {
 				continue;
 			}
 
-			var line = lines[i].replace(imagelinks, markdown_imagelinks).replace(links, markdown_links).replace(format, markdown_format).replace(code, markdown_code);
+			var line = lines[i].replace(imagelinks, markdown_imagelinks).replace(links, markdown_links).replace(links2, markdown_links2).replace(format, markdown_format).replace(code, markdown_code).replace(regicons, markdown_icon);
 			if (!line) {
 				if (table) {
 					table = null;
@@ -259,7 +293,7 @@ function markdown(text) {
 					prevsize = size;
 				}
 
-				builder.push('<li>' + (type === 'ol' ? tmpline.substring(tmpline.indexOf('.') + 1) : tmpline.substring(2)).trim() + '</li>');
+				builder.push('<li>' + (type === 'ol' ? tmpline.substring(tmpline.indexOf('.') + 1) : tmpline.substring(2)).trim().replace(/\[x\]/g, '<i class="fa fa-check-square green"></i>').replace(/\[\s\]/g, '<i class="far fa-square"></i>') + '</li>');
 
 			} else {
 				closeul();

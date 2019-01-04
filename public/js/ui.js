@@ -154,14 +154,16 @@ COMPONENT('loading', function(self) {
 
 	self.readonly();
 	self.singleton();
+	self.nocompile && self.nocompile();
 
 	self.make = function() {
 		self.aclass('ui-loading');
-		self.append('<div></div>');
+		self.append('<div><div class="ui-loading-text"></div></div>');
 	};
 
-	self.show = function() {
+	self.show = function(text) {
 		clearTimeout(pointer);
+		self.find('.ui-loading-text').html(text || '');
 		self.rclass('hidden');
 		return self;
 	};
@@ -691,9 +693,51 @@ COMPONENT('validation', function(self, config) {
 COMPONENT('codemirror', 'linenumbers:false;required:false', function(self, config) {
 
 	var editor = null;
+	var fn = {};
+	var markers = {};
+	var cache_lines = [];
+	var skip = false;
 
 	self.getter = null;
 	self.bindvisible();
+	self.nocompile();
+
+	fn.lastIndexOf = function(str, chfrom) {
+		for (var i = chfrom; i > 0; i--) {
+			var c = str.substring(i - 1, i);
+			for (var j = 1; j < arguments.length; j++)
+				if (c === arguments[j])
+					return i;
+		}
+		return 0;
+	};
+
+	var GutterDiff = function() {
+		var marker = document.createElement('div');
+		var css = marker.style;
+		css.color = '#3ed853';
+		css.position = 'absolute';
+		css.left = '10px';
+		css.top = '-1px';
+		marker.className = 'cm-diff';
+		marker.innerHTML = '+';
+		return marker;
+	};
+
+	self.diffgutterclear = function() {
+		editor.doc.clearGutter('GutterDiff');
+	};
+
+	self.diffgutter = function(line, nullable) {
+		editor.setGutterMarker(line, 'GutterDiff', nullable ? null : GutterDiff());
+	};
+
+	self.clearmarkers = function() {
+		var m = editor.doc.getAllMarks();
+		for (var i = 0; i < m.length; i++)
+			m[i].clear();
+		markers = {};
+	};
 
 	self.reload = function() {
 		editor.refresh();
@@ -707,6 +751,11 @@ COMPONENT('codemirror', 'linenumbers:false;required:false', function(self, confi
 		editor.replaceSelection(value);
 		self.change(true);
 	};
+
+	// self.resize = function() {
+	// 	var h = $('#content').css('height').parseInt();
+	// 	self.find('.CodeMirror').css('height', h);
+	// };
 
 	self.configure = function(key, value, init) {
 		if (init)
@@ -730,20 +779,65 @@ COMPONENT('codemirror', 'linenumbers:false;required:false', function(self, confi
 	};
 
 	self.make = function() {
+
+		var findmatch = function() {
+			var sel = editor.getSelections()[0];
+			var cur = editor.getCursor();
+			var count = editor.lineCount();
+			var before = editor.getLine(cur.line).substring(cur.ch, cur.ch + sel.length) === sel;
+			var beg = cur.ch + (before ? sel.length : 0);
+			for (var i = cur.line; i < count; i++) {
+				var ch = editor.getLine(i).indexOf(sel, beg);
+				if (ch !== -1) {
+					editor.doc.addSelection({ line: i, ch: ch }, { line: i, ch: ch + sel.length });
+					break;
+				}
+				beg = 0;
+			}
+		};
+
+		var clearsearch = function() {
+			editor.execCommand('clearSearch');
+			editor.execCommand('singleSelection');
+			return CodeMirror.pass;
+		};
+
 		var content = config.label || self.html();
 		self.html((content ? '<div class="ui-codemirror-label' + (config.required ? ' ui-codemirror-label-required' : '') + '">' + (config.icon ? '<i class="fa fa-' + config.icon + '"></i> ' : '') + content + ':</div>' : '') + '<div class="ui-codemirror"></div>');
 		var container = self.find('.ui-codemirror');
 
 		var options = {};
-		options.lineNumbers = config.linenumbers;
+		options.lineNumbers = false;
 		options.mode = config.type || 'htmlmixed';
 		options.indentUnit = 4;
+		options.indentWithTabs = true;
+		options.styleActiveLine = true;
+		options.lineWrapping = true;
+		options.matchBrackets = true;
+		options.scrollbarStyle = 'simple';
+		options.rulers = [{ column: 130, lineStyle: 'dashed' }];
+		options.gutters = ['CodeMirror-lint-markers', 'GutterColor', 'GutterDiff'];
+		options.foldGutter = true;
+		options.highlightSelectionMatches = { annotateScrollbar: true, delay: 100 };
+		options.phrases = {};
+		// options.showTrailingSpace = true;
+		options.matchTags = { bothTags: true };
+		// options.autoCloseTags = true;
+		// options.scrollPastEnd = true;
+		options.lint = true;
+		options.autoCloseBrackets = true;
+		options.extraKeys = { 'Alt-F': 'findPersistent', 'Esc': clearsearch, 'Cmd-D': findmatch, 'Ctrl-D': findmatch };
 
-		if (config.type === 'markdown') {
-			options.styleActiveLine = true;
-			options.lineWrapping = true;
-			options.matchBrackets = true;
-		}
+		var GutterColor = function(color) {
+			var marker = document.createElement('div');
+			var css = marker.style;
+			css.color = color;
+			css.position = 'absolute';
+			css.left = '-10px';
+			css.top = '-1px';
+			marker.innerHTML = '●';
+			return marker;
+		};
 
 		editor = CodeMirror(container.get(0), options);
 		self.editor = editor;
@@ -763,22 +857,80 @@ COMPONENT('codemirror', 'linenumbers:false;required:false', function(self, confi
 		var can = {};
 		can['+input'] = can['+delete'] = can.undo = can.redo = can.paste = can.cut = can.clear = true;
 
+
 		editor.on('change', function(a, b) {
+			if (b.origin === 'setValue') {
+				cache_lines = editor.getValue().split('\n');
+			} else {
+				for (var i = b.from.line; i < (b.from.line + b.text.length); i++)
+					self.diffgutter(i, cache_lines && cache_lines[i] === editor.getLine(i));
+			}
+
+			// setTimeout2('EditorGutterColor', prerender_colors, 500);
 
 			if (config.disabled || !can[b.origin])
 				return;
 
 			setTimeout2(self.id, function() {
 				var val = editor.getValue();
+				if (config.trim) {
+					var lines = val.split('\n');
+					for (var i = 0, length = lines.length; i < length; i++)
+						lines[i] = lines[i].replace(/\s+$/, '');
+					val = lines.join('\n').trim();
+				}
+
 				self.getter2 && self.getter2(val);
-				self.$dirty && self.change(true);
-				self.rewrite(val);
+				self.change(true);
+				skip = true;
+				self.set(val);
 				config.required && self.validate2();
 			}, 200);
+
 		});
+
+		editor.on('keydown', function(editor, e) {
+			if (e.shiftKey && e.ctrlKey && (e.keyCode === 40 || e.keyCode === 38)) {
+				var tmp = editor.getCursor();
+				editor.doc.addSelection({ line: tmp.line + (e.keyCode === 40 ? 1 : -1), ch: tmp.ch });
+				e.stopPropagation();
+				e.preventDefault();
+			}
+		});
+
+		editor.phrase = function(text) {
+			return options.phrases[text] || text;
+		};
+
+		var can = {};
+		can['+input'] = can['+delete'] = can.undo = can.redo = can.paste = can.cut = can.clear = true;
+
+		editor.on('drop', function(data, e) {
+			var files = e.dataTransfer.files;
+			if (files && files.length) {
+				var reader = new FileReader();
+				if (files[0].type.substring(0, 4) === 'text' || files[0].type.indexOf('svg') !== -1)
+					reader.readAsText(files[0]);
+				else
+					reader.readAsDataURL(files[0]);
+				reader.onload = function () {
+					editor.doc.replaceSelection(reader.result);
+				};
+				e.preventDefault();
+				e.stopPropagation();
+				return false;
+			}
+		});
+
+		// self.resize();
 	};
 
 	self.setter = function(value) {
+
+		if (skip) {
+			skip = false;
+			return;
+		}
 
 		editor.setValue(value || '');
 		editor.refresh();
@@ -807,7 +959,7 @@ COMPONENT('codemirror', 'linenumbers:false;required:false', function(self, confi
 		self.$oldstate = invalid;
 		self.find('.ui-codemirror').tclass('ui-codemirror-invalid', invalid);
 	};
-}, ['//cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.js', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/javascript/javascript.min.js', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/htmlmixed/htmlmixed.min.js', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/xml/xml.min.js', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/css/css.min.js', '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/mode/markdown/markdown.min.js']);
+});
 
 function refresh_markdown(read) {
 	var el = $('.markdown');
@@ -985,10 +1137,13 @@ COMPONENT('nosqlcounter', 'count:0', function(self, config) {
 			stats.reverse();
 		}
 
-		var max = stats.scalar('max', 'value');
+		var max = 0;
 		var bar = 100 / maxbars;
 		var builder = [];
 		var cls = '';
+
+		for (var i = 0; i < stats.length; i++)
+			max = Math.max(max, stats[i].value);
 
 		stats.forEach(function(item, index) {
 			var val = item.value;

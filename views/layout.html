@@ -6,10 +6,6 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<meta name="robots" content="all,follow" />
-	<link rel="stylesheet" href="//cdn.componentator.com/spa.min@17.css" />
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
-	<script src="//cdn.componentator.com/spa.min@17.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
 	@{import('meta', 'head', 'default.css', 'default.js', 'favicon.ico')}
 </head>
 <body data-jc="exec">
@@ -21,13 +17,15 @@
 	<div class="container">
 		<div class="bg">
 			<header>
-				<div class="padding">
-					<a href="/" class="logo"><b>@{config.name}</b> v@{config.version}</a>
+				<div class="padding npb">
+					<a href="/" class="logo"><b>@{config.name}</b></a>
 					<div data-jc="textbox__common.search__type:search;placeholder:@(Search in Wiki ...)" data-jc-id="search"></div>
 					<br />
-					<div class="categories">
-						<div data-jc="tree__common.pages__exec:treeclick;first:false"></div>
-					</div>
+				</div>
+				<div class="categories">
+					<div data-jc="tree__common.pages__exec:treeclick;first:false"></div>
+				</div>
+				<div class="padding">
 					<button class="categorybutton"><i class="fa fa-plus-circle"></i>@(Toggle content)</button>
 					<footer>
 						@(All rights reserved &copy; 2017-2019)<br />
