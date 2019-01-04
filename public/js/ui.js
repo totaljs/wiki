@@ -902,26 +902,6 @@ COMPONENT('codemirror', 'linenumbers:false;required:false', function(self, confi
 			return options.phrases[text] || text;
 		};
 
-		var can = {};
-		can['+input'] = can['+delete'] = can.undo = can.redo = can.paste = can.cut = can.clear = true;
-
-		editor.on('drop', function(data, e) {
-			var files = e.dataTransfer.files;
-			if (files && files.length) {
-				var reader = new FileReader();
-				if (files[0].type.substring(0, 4) === 'text' || files[0].type.indexOf('svg') !== -1)
-					reader.readAsText(files[0]);
-				else
-					reader.readAsDataURL(files[0]);
-				reader.onload = function () {
-					editor.doc.replaceSelection(reader.result);
-				};
-				e.preventDefault();
-				e.stopPropagation();
-				return false;
-			}
-		});
-
 		// self.resize();
 	};
 

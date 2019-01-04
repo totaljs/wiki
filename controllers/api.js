@@ -40,7 +40,7 @@ function upload_markdown() {
 			// Store current file into the HDD
 			file.extension = U.getExtension(file.filename);
 			var filename = NOSQL('pages').binary.insert(file.filename, data) + '.' + file.extension;
-			id.push({ url: '/download/' + filename, filename: file.filename, width: file.width, height: file.height });
+			id.push({ url: '/download/' + filename, filename: file.filename, width: file.width, height: file.height, length: file.length });
 
 			// Next file
 			setTimeout(next, 100);
