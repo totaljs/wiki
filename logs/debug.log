@@ -1,22 +1,118 @@
--------------------------> DEBUG PID: 10812 (v2.8.1)
+--------> DEBUG PID: 3080 (v3.2.0)
 ====================================================
-PID         : 10819
-Node.js     : v8.6.0
-Total.js    : v2.8.1
-OS          : linux 4.4.0-92-generic
+PID           : 3087
+Node.js       : v10.14.1
+Total.js      : v3.2.0
+OS            : linux 4.4.0-92-generic
+Memory        : 13.08 MB / 21.91 MB
+User          : root
 ====================================================
-Name        : Wiki
-Version     : 1.0.0
-Author      : Peter Širka
-Date        : 2017-10-03 21:50:49
-Mode        : debug
+Name          : Wiki
+Version       : 1.2.0
+Author        : Peter Širka
+Date          : 2019-01-04 09:09:12
+Mode          : debug
+====================================================
+Directory     : /www/www/totaljs_com-wiki
+node_modules  : /www/node_modules/total.js/
 ====================================================
 
 http://0.0.0.0:8096/
 
---- UPD --- [ 2017-10-03 21:53:26 ] ---------------------------------> /definitions/markdown.js
-{}
-{}
---- UPD --- [ 2017-10-03 21:53:46 ] ---------------------------------> /definitions/markdown.js
-undefined undefined
-undefined undefined
+--- UPD --- [ 2019-01-04 09:11:20 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 09:37:37 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 09:37:42 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 09:37:55 ] ----------------> /controllers/api.js
+--- UPD --- [ 2019-01-04 10:16:01 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:17:51 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:20:53 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:20:55 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:23:21 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:23:39 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:23:40 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:24:38 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:26:58 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:27:50 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:28:39 ] ----------------> /definitions/markdown.js
+======= 2019-01-04 10:28:39: F.install('definition') ---> SyntaxError: missing ) after argument list /www/www/totaljs_com-wiki/definitions/markdown.js:60
+		}.replace(imagelinks, markdown_imagelinks).replace(links, markdown_links).replace(format, markdown_format).replace(code, markdown_code);
+		                                                                                                                                      ^
+
+SyntaxError: missing ) after argument list
+    at new Script (vm.js:79:7)
+    at createScript (vm.js:251:10)
+    at Object.runInThisContext (vm.js:303:10)
+    at Module._compile (internal/modules/cjs/loader.js:656:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)
+    at Module.load (internal/modules/cjs/loader.js:598:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:529:3)
+    at Module.require (internal/modules/cjs/loader.js:636:17)
+    at require (internal/modules/cjs/helpers.js:20:18)
+======= 2019-01-04 10:28:39: default ---> Error: View "detail": !model.body.markdown() - Line: 0 - model.body.markdown is not a function (https://wiki.totaljs.com/dbms/04-querybuilder/) Error: View "detail": !model.body.markdown() - Line: 0 - model.body.markdown is not a function
+    at Controller.$viewrender (/www/node_modules/total.js/index.js:13234:9)
+    at Controller.view (/www/node_modules/total.js/index.js:13170:14)
+    at DatabaseBuilder.$callback (/www/www/totaljs_com-wiki/controllers/default.js:43:8)
+    at DatabaseBuilder.$callback2 (/www/node_modules/total.js/nosql.js:2341:26)
+    at NoSQLReader.callback (/www/node_modules/total.js/nosql.js:6991:11)
+    at NoSQLReader.done (/www/node_modules/total.js/nosql.js:7026:8)
+    at NoSQLStream.fs.$callback (/www/node_modules/total.js/nosql.js:1768:11)
+    at /www/node_modules/total.js/nosqlstream.js:637:27
+    at FSReqWrap.oncomplete (fs.js:141:20)
+--- UPD --- [ 2019-01-04 10:28:48 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:28:49 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:30:36 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:31:29 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:31:45 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:33:02 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:33:19 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:37:03 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:42:43 ] ----------------> /definitions/markdown.js
+======= 2019-01-04 10:42:48: default ---> Error: View "detail": !model.body.markdown2() - Line: 0 - Cannot read property 'split' of undefined (https://wiki.totaljs.com/dbms/04-querybuilder/) Error: View "detail": !model.body.markdown2() - Line: 0 - Cannot read property 'split' of undefined
+    at Controller.$viewrender (/www/node_modules/total.js/index.js:13234:9)
+    at Controller.view (/www/node_modules/total.js/index.js:13170:14)
+    at DatabaseBuilder.$callback (/www/www/totaljs_com-wiki/controllers/default.js:43:8)
+    at DatabaseBuilder.$callback2 (/www/node_modules/total.js/nosql.js:2341:26)
+    at NoSQLReader.callback (/www/node_modules/total.js/nosql.js:6991:11)
+    at NoSQLReader.done (/www/node_modules/total.js/nosql.js:7026:8)
+    at NoSQLStream.fs.$callback (/www/node_modules/total.js/nosql.js:1768:11)
+    at /www/node_modules/total.js/nosqlstream.js:637:27
+    at FSReqWrap.oncomplete (fs.js:141:20)
+--- UPD --- [ 2019-01-04 10:43:09 ] ----------------> /definitions/markdown.js
+======= 2019-01-04 10:43:14: default ---> Error: View "detail": !model.body.markdown2() - Line: 0 - Cannot read property 'split' of undefined (https://wiki.totaljs.com/dbms/04-querybuilder/) Error: View "detail": !model.body.markdown2() - Line: 0 - Cannot read property 'split' of undefined
+    at Controller.$viewrender (/www/node_modules/total.js/index.js:13234:9)
+    at Controller.view (/www/node_modules/total.js/index.js:13170:14)
+    at DatabaseBuilder.$callback (/www/www/totaljs_com-wiki/controllers/default.js:43:8)
+    at DatabaseBuilder.$callback2 (/www/node_modules/total.js/nosql.js:2341:26)
+    at NoSQLReader.callback (/www/node_modules/total.js/nosql.js:6991:11)
+    at NoSQLReader.done (/www/node_modules/total.js/nosql.js:7026:8)
+    at NoSQLStream.fs.$callback (/www/node_modules/total.js/nosql.js:1768:11)
+    at /www/node_modules/total.js/nosqlstream.js:637:27
+    at FSReqWrap.oncomplete (fs.js:141:20)
+--- UPD --- [ 2019-01-04 10:43:19 ] ----------------> /definitions/markdown.js
+--- UPD --- [ 2019-01-04 10:43:40 ] ----------------> /definitions/markdown.js
+======= 2019-01-04 10:43:40: F.install('definition') ---> ReferenceError: cosnole is not defined ReferenceError: cosnole is not defined
+    at Markdown (/www/www/totaljs_com-wiki/definitions/markdown.js:102:1)
+    at Object.<anonymous> (/www/www/totaljs_com-wiki/definitions/markdown.js:237:3)
+    at Module._compile (internal/modules/cjs/loader.js:688:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)
+    at Module.load (internal/modules/cjs/loader.js:598:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:529:3)
+    at Module.require (internal/modules/cjs/loader.js:636:17)
+    at require (internal/modules/cjs/helpers.js:20:18)
+    at Framework.F.install (/www/node_modules/total.js/index.js:4456:11)
+--- UPD --- [ 2019-01-04 10:43:42 ] ----------------> /definitions/markdown.js
+======= 2019-01-04 10:43:42: F.install('definition') ---> ReferenceError: cosnole is not defined ReferenceError: cosnole is not defined
+    at Markdown (/www/www/totaljs_com-wiki/definitions/markdown.js:102:1)
+    at Object.<anonymous> (/www/www/totaljs_com-wiki/definitions/markdown.js:237:3)
+    at Module._compile (internal/modules/cjs/loader.js:688:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)
+    at Module.load (internal/modules/cjs/loader.js:598:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:529:3)
+    at Module.require (internal/modules/cjs/loader.js:636:17)
+    at require (internal/modules/cjs/helpers.js:20:18)
+    at Framework.F.install (/www/node_modules/total.js/index.js:4456:11)
+--- UPD --- [ 2019-01-04 10:43:43 ] ----------------> /definitions/markdown.js
+OK

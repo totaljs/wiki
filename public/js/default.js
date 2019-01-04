@@ -1,6 +1,3 @@
-UPTODATE('1 day', '/');
-PING('/api/ping/');
-
 var common = { hash: location.hash.substring(1) };
 
 // Helpers

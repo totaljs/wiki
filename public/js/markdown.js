@@ -1,13 +1,8 @@
-const REG_LINKS = /"@\d+[0-9a-z]+(#|")/g;
-const REG_HREF = /href="\//g;
+function markdown(text) {
+	return text.markdown();
+}
 
-String.prototype.markdown2 = function() {
-	return this.markdown().replace(REG_LINKS, function(id) {
-		var link = F.global.pages.findItem('id', id.substring(2, id.length - 1));
-		return (link ? ('"/' + link.url + '/' + id.substring(id.length - 1)) : id);
-	}).replace(REG_HREF, 'class="jrouting" href="/');
-};
-
+/*! Markdown | (c) 2019 Peter Sirka | www.petersirka.com */
 (function Markdown() {
 
 	var links = /(!)?\[.*?\]\(.*?\)/g;

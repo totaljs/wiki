@@ -26,7 +26,7 @@ function json_ping() {
 }
 
 function preview() {
-	this.content(global.markdown(this.body.body || ''), 'text/html');
+	this.content((this.body.body || '').markdown(), 'text/html');
 }
 
 function upload_markdown() {

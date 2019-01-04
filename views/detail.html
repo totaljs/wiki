@@ -13,7 +13,7 @@
 	@{fi}
 	<div class="markdown">
 		@{if model}
-			@{!markdown(model.body)}
+			@{!model.body.markdown2()}
 		@{else}
 			<h1>@(Welcome to Wiki)</h1>
 			<p class="nmb">@(Welcome to <b>Total.js Wiki documentation</b> application. Here you can found great Total.js resources which can help you with web development or custom modification of Total.js products.)</p>

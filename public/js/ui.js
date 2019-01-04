@@ -812,8 +812,8 @@ COMPONENT('codemirror', 'linenumbers:false;required:false', function(self, confi
 function refresh_markdown(read) {
 	var el = $('.markdown');
 	if (el.length) {
-		marked_video(el.find('.lang-video'));
-		marked_iframe(el.find('.lang-iframe'));
+		markdown_video(el.find('.lang-video'));
+		markdown_iframe(el.find('.lang-iframe'));
 		el.find('pre code').each(FN('(i,b) => hljs.highlightBlock(b)'));
 		el.find('a').each(function() {
 			var el = $(this);
@@ -839,7 +839,7 @@ function highlight(el) {
 	});
 }
 
-function marked_video(selector) {
+function markdown_video(selector) {
 	selector.each(function() {
 		var el = $(this);
 		var html = el.html();
@@ -851,7 +851,7 @@ function marked_video(selector) {
 	});
 }
 
-function marked_iframe(selector) {
+function markdown_iframe(selector) {
 	selector.each(function() {
 		var el = $(this);
 		el.parent().replaceWith('<div class="iframe">' + el.html().replace(/\&lt\;/g, '<').replace(/\&gt\;/g, '>') + '</div>');
