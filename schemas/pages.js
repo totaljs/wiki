@@ -7,9 +7,7 @@ NEWSCHEMA('Page').make(function(schema) {
 	schema.define('body', String);
 
 	schema.setGet(function($) {
-		NOSQL('pages').find().where('id', $.controller.id).first().callback(function(err, response) {
-			$.callback(response);
-		});
+		NOSQL('pages').find2().where('id', $.controller.id).first().callback($.callback);
 	});
 
 	schema.setQuery(function($) {
