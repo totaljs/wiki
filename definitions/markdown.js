@@ -8,6 +8,7 @@ String.prototype.markdown2 = function() {
 	}).replace(REG_HREF, 'class="jrouting" href="/');
 };
 
+/*! Markdown | (c) 2019 Peter Sirka | www.petersirka.com */
 (function Markdown() {
 
 	var links = /(!)?\[.*?\]\(.*?\)/g;
@@ -97,6 +98,11 @@ String.prototype.markdown2 = function() {
 		var prevsize = 0;
 		var tmp;
 
+		var closeul = function() {
+			while (ul.length)
+				builder.push('</' + ul.pop() + '>');
+		};
+
 		for (var i = 0, length = lines.length; i < length; i++) {
 
 			lines[i] = lines[i].replace(encodetags, encode);
@@ -109,9 +115,11 @@ String.prototype.markdown2 = function() {
 					continue;
 				}
 
+				closeul();
 				iscode = true;
 				builder.push('<pre><code class="' + lines[i].substring(3) + '">');
 				prev = 'code';
+
 				continue;
 			}
 
@@ -129,12 +137,14 @@ String.prototype.markdown2 = function() {
 			}
 
 			if (line === '' && lines[i - 1] === '') {
+				closeul();
 				builder.push('<br />');
 				prev = 'br';
 				continue;
 			}
 
 			if (line[0] === '|') {
+				closeul();
 				if (!table) {
 					var next = lines[i + 1];
 					if (next[0] === '|') {
@@ -164,6 +174,8 @@ String.prototype.markdown2 = function() {
 			}
 
 			if (line.charAt(0) === '#') {
+
+				closeul();
 
 				if (line.substring(0, 2) === '# ') {
 					tmp = line.substring(2).trim();
@@ -218,11 +230,29 @@ String.prototype.markdown2 = function() {
 			var tmpline = line.trim();
 
 			if (ordered.test(tmpline)) {
+
 				var size = line.match(orderedsize);
 				if (size)
 					size = size[0].length;
 				else
 					size = 0;
+
+				var append = false;
+
+				if (prevsize !== size) {
+					// NESTED
+					if (size > prevsize) {
+						prevsize = size;
+						append = true;
+						var index = builder.length - 1;
+						builder[index] = builder[index].substring(0, builder[index].length - 5);
+						prev = '';
+					} else {
+						// back to normal
+						prevsize = size;
+						builder.push('</' + ul.pop() + '>');
+					}
+				}
 
 				var type = tmpline.charAt(0) === '-' ? 'ul' : 'ol';
 				if (prev !== type) {
@@ -230,7 +260,7 @@ String.prototype.markdown2 = function() {
 					if (type === 'ol')
 						subtype = tmpline.charAt(0);
 					builder.push('<' + type + (subtype ? (' type="' + subtype + '"') : '') + '>');
-					ul.push(type);
+					ul.push(type + (append ? '></li' : ''));
 					prev = type;
 					prevsize = size;
 				}
@@ -238,15 +268,13 @@ String.prototype.markdown2 = function() {
 				builder.push('<li>' + (type === 'ol' ? tmpline.substring(tmpline.indexOf('.') + 1) : tmpline.substring(2)).trim() + '</li>');
 
 			} else {
-				ul.length && builder.push('</' + ul.pop() + '>');
+				closeul();
 				line && builder.push('<p>' + line.trim() + '</p>');
 				prev = 'p';
 			}
 		}
 
-		for (var i = 0; i < ul.length; i++)
-			builder.push('</' + ul[i] + '>');
-
+		closeul();
 		table && builder.push('</tbody></table>');
 		iscode && builder.push('</code></pre>');
 
