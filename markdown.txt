@@ -131,3 +131,9 @@ Year   |   Apples   |  Bananas  |  Oranges
 2011   |   40       |  50       |  300
 ```
 
+|--------------------------------------------|
+| Relations                                  |
+|--------------------------------------------|
+
+[Another document]](@DOCUMENT_ID), example: [Another document](@17092508520003lex1)
+[Header](#) generates link to anchor automatically, but text in the [] must be same as a header name
