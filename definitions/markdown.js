@@ -255,8 +255,8 @@ String.prototype.markdown2 = function() {
 				continue;
 			}
 
-			if (line[0] === '>' && line.substring(0, 2) === '> ') {
-				builder.push('<blockquote>' + line.substring(2).trim() + '</blockquote>');
+			if (line.substring(0, 5) === '&gt; ') {
+				builder.push('<blockquote>' + line.substring(5).trim() + '</blockquote>');
 				prev = '>';
 				continue;
 			}

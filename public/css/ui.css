@@ -154,7 +154,9 @@ div.CodeMirror span.CodeMirror-matchingbracket { border-bottom: 2px solid blue; 
 .markdown ul { margin: 0 0 20px 0; padding: 0 0 0 2em; }
 .markdown img { max-width: 100%; }
 .markdown th { background-color: #F8F8F8; }
-.markdown blockquote { padding: 0 15px; color: #777; border-left: 4px solid #DDD; margin: 10px 5px; }
+.markdown blockquote { padding: 15px 20px; color: #777; border: 1px solid #DDD; margin: 10px 5px; border-radius: 3px; }
+.markdown blockquote:before { content: '\201C'; position: absolute; margin-left: -14px; margin-top: -13px; font: 45px 'PT Sans', sans-serif; color: #A0A0A0; }
+
 .markdown hr { border-color: #E0E0E0; border-width: 2px; }
 .markdown h1 code { font-size: 28px; font-weight: normal; background-color: #DAE8F8; }
 .markdown h2 code { font-size: 23px; font-weight: normal; background-color: #DAE8F8; }
