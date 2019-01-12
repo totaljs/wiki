@@ -151,14 +151,15 @@ String.prototype.markdown2 = function() {
 
 				closeul();
 				iscode = true;
-				builder.push('<pre><code class="lang-' + lines[i].substring(3) + '">');
+				tmp = '<pre><code class="lang-' + lines[i].substring(3) + '">';
 				prev = 'code';
-
 				continue;
 			}
 
 			if (iscode) {
-				builder.push(lines[i]);
+				builder.push(tmp + lines[i]);
+				if (tmp)
+					tmp = '';
 				continue;
 			}
 
@@ -247,7 +248,7 @@ String.prototype.markdown2 = function() {
 				}
 			}
 
-			var tmp = line.substring(0, 3);
+			tmp = line.substring(0, 3);
 
 			if (tmp === '---' || tmp === '***') {
 				prev = 'hr';
@@ -314,4 +315,5 @@ String.prototype.markdown2 = function() {
 
 		return '<div class="markdown">' + builder.join('\n') + '</div>';
 	};
+
 })();

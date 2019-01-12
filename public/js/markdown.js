@@ -145,14 +145,15 @@ function markdown(text) {
 
 				closeul();
 				iscode = true;
-				builder.push('<pre><code class="lang-' + lines[i].substring(3) + '">');
+				tmp = '<pre><code class="lang-' + lines[i].substring(3) + '">';
 				prev = 'code';
-
 				continue;
 			}
 
 			if (iscode) {
-				builder.push(lines[i]);
+				builder.push(tmp + lines[i]);
+				if (tmp)
+					tmp = '';
 				continue;
 			}
 
@@ -241,7 +242,7 @@ function markdown(text) {
 				}
 			}
 
-			var tmp = line.substring(0, 3);
+			tmp = line.substring(0, 3);
 
 			if (tmp === '---' || tmp === '***') {
 				prev = 'hr';
@@ -308,4 +309,5 @@ function markdown(text) {
 
 		return '<div class="markdown">' + builder.join('\n') + '</div>';
 	};
+
 })();
