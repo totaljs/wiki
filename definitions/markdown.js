@@ -24,6 +24,7 @@ String.prototype.markdown2 = function() {
 	var regdash = /-{2,}/g;
 	var regtags = /<\/?[^>]+(>|$)/g;
 	var regicons = /(^|[^\w]):[a-z-]+:([^\w]|$)/g;
+	var regemptychar = /\s|\W/;
 
 	var encode = function(val) {
 		return '&' + (val === '<' ? 'lt' : 'gt') + ';';
@@ -77,14 +78,20 @@ String.prototype.markdown2 = function() {
 		return '<a href="' + value + '">' + value + '</a>';
 	}
 
-	function markdown_format(value) {
-		switch (value.charAt(0)) {
-			case '_':
-				return '<strong>' + value.replace(formatclean, '') + '</strong>';
-			case '*':
-				return '<em>' + value.replace(formatclean, '') + '</em>';
-			case '~':
-				return '<strike>' + value.replace(formatclean, '') + '</strike>';
+	function markdown_format(value, index, text) {
+
+		var p = text.charAt(index - 1);
+		var n = text.charAt(index + value.length);
+
+		if ((!p || regemptychar.test(p)) && (!n || regemptychar.test(n))) {
+			switch (value.charAt(0)) {
+				case '_':
+					return '<strong>' + value.replace(formatclean, '') + '</strong>';
+				case '*':
+					return '<em>' + value.replace(formatclean, '') + '</em>';
+				case '~':
+					return '<strike>' + value.replace(formatclean, '') + '</strike>';
+			}
 		}
 		return value;
 	}
@@ -121,7 +128,22 @@ String.prototype.markdown2 = function() {
 		return value.substring(0, beg - 1) + '<i class="fa fa-' + value.substring(beg, end) + '"></i>' + value.substring(end + 1);
 	}
 
-	String.prototype.markdown = function() {
+	String.prototype.markdown = function(opt) {
+
+		// opt.wrap = true;
+		// opt.linetag = 'p';
+		// opt.ul = true;
+		// opt.code = true;
+		// opt.images = true;
+		// opt.links = true;
+		// opt.formatting = true;
+		// opt.icons = true;
+		// opt.tables = true;
+		// opt.br = true;
+		// opt.headlines = true;
+		// opt.hr = true;
+		// opt.blockquotes = true;
+
 		var lines = this.split('\n');
 		var builder = [];
 		var ul = [];
@@ -132,9 +154,25 @@ String.prototype.markdown2 = function() {
 		var prevsize = 0;
 		var tmp;
 
+		if (!opt)
+			opt = {};
+
+		if (opt.wrap == null)
+			opt.wrap = true;
+
+		if (opt.linetag == null)
+			opt.linetag = 'p';
+
 		var closeul = function() {
-			while (ul.length)
-				builder.push('</' + ul.pop() + '>');
+			while (ul.length) {
+				var text = ul.pop();
+				if (opt.ul !== false)
+					builder.push('</' + text + '>');
+			}
+		};
+
+		var formatlinks = function(val) {
+			return markdown_links(val, opt.images);
 		};
 
 		for (var i = 0, length = lines.length; i < length; i++) {
@@ -144,36 +182,54 @@ String.prototype.markdown2 = function() {
 			if (lines[i].substring(0, 3) === '```') {
 
 				if (iscode) {
-					builder.push('</code></pre>');
+					if (opt.code !== false)
+						builder.push('</code></pre>');
 					iscode = false;
 					continue;
 				}
 
 				closeul();
 				iscode = true;
-				tmp = '<pre><code class="lang-' + lines[i].substring(3) + '">';
+				if (opt.code !== false)
+					tmp = '<pre><code class="lang-' + lines[i].substring(3) + '">';
 				prev = 'code';
 				continue;
 			}
 
 			if (iscode) {
-				builder.push(tmp + lines[i]);
+				if (opt.code !== false)
+					builder.push(tmp + lines[i]);
 				if (tmp)
 					tmp = '';
 				continue;
 			}
 
-			var line = lines[i].replace(imagelinks, markdown_imagelinks).replace(links, markdown_links).replace(links2, markdown_links2).replace(format, markdown_format).replace(code, markdown_code).replace(regicons, markdown_icon);
+			var line = lines[i];
+
+			if (opt.links !== false) {
+				if (opt.images !== false)
+					line = line.replace(imagelinks, markdown_imagelinks);
+				line = line.replace(links, formatlinks).replace(links2, markdown_links2);
+			}
+
+			if (opt.formatting !== false)
+				line = line.replace(format, markdown_format).replace(code, markdown_code);
+
+			if (opt.icons !== false)
+				line = line.replace(regicons, markdown_icon);
+
 			if (!line) {
 				if (table) {
 					table = null;
-					builder.push('</tbody></table>');
+					if (opt.tables !== false)
+						builder.push('</tbody></table>');
 				}
 			}
 
 			if (line === '' && lines[i - 1] === '') {
 				closeul();
-				builder.push('<br />');
+				if (opt.br !== false)
+					builder.push('<br />');
 				prev = 'br';
 				continue;
 			}
@@ -192,7 +248,8 @@ String.prototype.markdown2 = function() {
 								align = column[0] === ':' ? 'center' : 'right';
 							table.push(align);
 						}
-						builder.push('<table class="table table-bordered"><thead>');
+						if (opt.tables !== false)
+							builder.push('<table class="table table-bordered"><thead>');
 						prev = 'table';
 						ishead = true;
 						i++;
@@ -200,10 +257,12 @@ String.prototype.markdown2 = function() {
 						continue;
 				}
 
-				if (ishead)
-					builder.push(markdown_table(line, table, true) + '</thead><tbody>');
-				else
-					builder.push(markdown_table(line, table));
+				if (opt.tables !== false) {
+					if (ishead)
+						builder.push(markdown_table(line, table, true) + '</thead><tbody>');
+					else
+						builder.push(markdown_table(line, table));
+				}
 				ishead = false;
 				continue;
 			}
@@ -214,35 +273,40 @@ String.prototype.markdown2 = function() {
 
 				if (line.substring(0, 2) === '# ') {
 					tmp = line.substring(2).trim();
-					builder.push('<h1 id="' + markdown_id(tmp) + '">' + tmp + '</h1>');
+					if (opt.headlines !== false)
+						builder.push('<h1 id="' + markdown_id(tmp) + '">' + tmp + '</h1>');
 					prev = '#';
 					continue;
 				}
 
 				if (line.substring(0, 3) === '## ') {
 					tmp = line.substring(3).trim();
-					builder.push('<h2 id="' + markdown_id(tmp) + '">' + tmp + '</h2>');
+					if (opt.headlines !== false)
+						builder.push('<h2 id="' + markdown_id(tmp) + '">' + tmp + '</h2>');
 					prev = '##';
 					continue;
 				}
 
 				if (line.substring(0, 4) === '### ') {
 					tmp = line.substring(4).trim();
-					builder.push('<h3 id="' + markdown_id(tmp) + '">' + tmp + '</h3>');
+					if (opt.headlines !== false)
+						builder.push('<h3 id="' + markdown_id(tmp) + '">' + tmp + '</h3>');
 					prev = '###';
 					continue;
 				}
 
 				if (line.substring(0, 5) === '#### ') {
 					tmp = line.substring(5).trim();
-					builder.push('<h4 id="' + markdown_id(tmp) + '">' + tmp + '</h4>');
+					if (opt.headlines !== false)
+						builder.push('<h4 id="' + markdown_id(tmp) + '">' + tmp + '</h4>');
 					prev = '####';
 					continue;
 				}
 
 				if (line.substring(0, 6) === '##### ') {
 					tmp = line.substring(6).trim();
-					builder.push('<h5 id="' + markdown_id(tmp) + '">' + tmp + '</h5>');
+					if (opt.headlines !== false)
+						builder.push('<h5 id="' + markdown_id(tmp) + '">' + tmp + '</h5>');
 					prev = '#####';
 					continue;
 				}
@@ -252,12 +316,14 @@ String.prototype.markdown2 = function() {
 
 			if (tmp === '---' || tmp === '***') {
 				prev = 'hr';
-				builder.push('<hr class="line' + (tmp.charAt(0) === '-' ? '1' : '2') + '" />');
+				if (opt.hr !== false)
+					builder.push('<hr class="line' + (tmp.charAt(0) === '-' ? '1' : '2') + '" />');
 				continue;
 			}
 
 			if (line.substring(0, 5) === '&gt; ') {
-				builder.push('<blockquote>' + line.substring(5).trim() + '</blockquote>');
+				if (opt.blockquotes !== false)
+					builder.push('<blockquote>' + line.substring(5).trim() + '</blockquote>');
 				prev = '>';
 				continue;
 			}
@@ -285,7 +351,8 @@ String.prototype.markdown2 = function() {
 					} else {
 						// back to normal
 						prevsize = size;
-						builder.push('</' + ul.pop() + '>');
+						if (opt.ul !== false)
+							builder.push('</' + ul.pop() + '>');
 					}
 				}
 
@@ -294,7 +361,10 @@ String.prototype.markdown2 = function() {
 					var subtype;
 					if (type === 'ol')
 						subtype = tmpline.charAt(0);
-					builder.push('<' + type + (subtype ? (' type="' + subtype + '"') : '') + '>');
+
+					if (opt.ul !== false)
+						builder.push('<' + type + (subtype ? (' type="' + subtype + '"') : '') + '>');
+
 					ul.push(type + (append ? '></li' : ''));
 					prev = type;
 					prevsize = size;
@@ -304,16 +374,15 @@ String.prototype.markdown2 = function() {
 
 			} else {
 				closeul();
-				line && builder.push('<p>' + line.trim() + '</p>');
+				line && builder.push((opt.linetag ? ('<' + opt.linetag + '>') : '') + line.trim() + (opt.linetag ? ('</' + opt.linetag + '>') : ''));
 				prev = 'p';
 			}
 		}
 
 		closeul();
-		table && builder.push('</tbody></table>');
-		iscode && builder.push('</code></pre>');
-
-		return '<div class="markdown">' + builder.join('\n') + '</div>';
+		table && opt.tables !== false && builder.push('</tbody></table>');
+		iscode && opt.code !== false && builder.push('</code></pre>');
+		return (opt.wrap ? '<div class="markdown">' : '') + builder.join('\n') + (opt.wrap ? '</div>' : '');
 	};
 
 })();
