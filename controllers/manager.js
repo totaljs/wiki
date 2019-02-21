@@ -1,3 +1,5 @@
+var COOKIEOPTIONS = { security: 'lax', httponly: true };
+
 exports.install = function() {
 	var url = CONF['manager-url'];
 
@@ -32,7 +34,7 @@ function login() {
 			G.protection[self.ip] = 1;
 	} else {
 		delete G.protection[self.ip];
-		self.cookie(CONF['manager-cookie'], login.hash(), '7 days');
+		self.cookie(CONF['manager-cookie'], login.hash(), '7 days', COOKIEOPTIONS);
 		self.json(SUCCESS(true));
 	}
 }

@@ -8,7 +8,7 @@ ON('service', function(interval) {
 
 AUTH(function(req, res, flags, next) {
 
-	var cookie = req.cookie(F.config['manager-cookie']);
+	var cookie = req.cookie(CONF['manager-cookie']);
 	if (!cookie)
 		return next(false);
 
@@ -16,7 +16,8 @@ AUTH(function(req, res, flags, next) {
 		return next(false);
 
 	cookie = +cookie;
-	var users = F.config['manager-superadmin'];
+
+	var users = CONF['manager-superadmin'];
 	for (var i = 0; i < users.length; i++) {
 		if (users[i].hash() === cookie)
 			return next(true, users[i].split(':')[0]);

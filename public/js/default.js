@@ -230,7 +230,7 @@ function treeclick(obj, group, expanded) {
 function refresh_navigation() {
 
 	var el = $('.navigation');
-	var current = common.items.findItem('url', NAVIGATION.url.substring(1, NAVIGATION.url.length - 1));
+	var current = (common.items || EMPTYARRAY).findItem('url', NAVIGATION.url.substring(1, NAVIGATION.url.length - 1));
 
 	if (!current || !current.parent)
 		return;
