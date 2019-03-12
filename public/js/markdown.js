@@ -3,6 +3,7 @@ function markdown(text) {
 }
 
 /*! Markdown | (c) 2019 Peter Sirka | www.petersirka.com */
+/*! Markdown | (c) 2019 Peter Sirka | www.petersirka.com */
 (function Markdown() {
 
 	var links = /(!)?\[.*?\]\(.*?\)/g;
@@ -137,6 +138,7 @@ function markdown(text) {
 		// opt.headlines = true;
 		// opt.hr = true;
 		// opt.blockquotes = true;
+		// opt.custom
 
 		var lines = this.split('\n');
 		var builder = [];
@@ -199,6 +201,9 @@ function markdown(text) {
 			}
 
 			var line = lines[i];
+
+			if (opt.custom)
+				line = opt.custom(line);
 
 			if (opt.links !== false) {
 				if (opt.images !== false)
